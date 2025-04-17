@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/16 17:59:51 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 10:54:46 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	int		i;
-	char	*tmp1;
-	char	*tmp2;
+	size_t		i;
+	t_uc		*tmp1;
+	const t_uc	*tmp2;
 
 	if (!src ||!dest)
 		return (NULL);

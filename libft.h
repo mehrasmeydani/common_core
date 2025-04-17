@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:29:12 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 10:25:50 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 10:43:21 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 
-typedef unsigned char *	t_uc;
+typedef unsigned char	t_uc;
 
 typedef struct s_list
 {

@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 09:53:04 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 10:46:58 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s++)
-		if (*(s - 1) == c)
-			return (s - 1);
-	if (*s == c)
-		return (s);
+	int		i;
+	char	*tmp;
+
+	i = -1;
+	while (s[++i])
+		if (s[i] == c)
+			return (tmp = (char *)(s + i), tmp);
+	if (s[i] == c)
+		return (tmp = (char *)(s + i), tmp);
 	return (NULL);
 }
