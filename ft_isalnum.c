@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 10:33:27 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:59:24 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	ft_isalnum(int c)
 {
-	return (ft_isalpha(c) && ft_isdigit(c));
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 10:49:58 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:17:13 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strrchr(const char *s, int c)
 
 	i = -1;
 	while (++i <= ft_strlen(s))
-		if (s[ft_strlen(s) - i] == c)
+		if (s[ft_strlen(s) - i] == (char)c)
 			return (tmp = (char *)(s + ft_strlen(s) - i), tmp);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 10:32:23 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:21:24 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t	i;
 
 	i = -1;
-	while (s1[++i] && s1[i] == s2[i] && i < n)
+	if (!n)
+		return (0);
+	while (s1[++i] && s1[i] == s2[i] && i < n - 1)
 		;
 	return (s1[i] - s2[i]);
 }
