@@ -6,7 +6,7 @@
 /*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/17 16:48:59 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/18 14:43:20 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start > ft_strlen(s) || len * ft_strlen(s) == 0)
-		return((char *)ft_calloc(1, sizeof(char)));
+		return ((char *)ft_calloc(1, sizeof(char)));
 	if (len + start > ft_strlen(s))
 		out = (char *)ft_calloc((ft_strlen(s) - start + 1), sizeof(char));
 	else
