@@ -2,5 +2,5 @@
 
 int main()
 {
-	ft_printf("lol%d", 123);
+	ft_printf("lol%d %d", 123, 3);
 }
