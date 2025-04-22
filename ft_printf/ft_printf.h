@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:38:32 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/22 16:23:28 by megardes         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:53:55 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@
 # include <stdarg.h>
 # include <string.h>
 
-# define CHAR_P char *
-# define CHAR char
-# define U_LL unsigned long long
-# define INT int
-# define U_INT unsigned int
-
-int ft_printf(const char *str, ...);
+int	ft_printf(const char *str, ...);
 
 #endif

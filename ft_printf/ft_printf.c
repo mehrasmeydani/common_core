@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:38:04 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/22 16:53:02 by megardes         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:54:29 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	print(const char *str, int *i, va_list args)
 	else if (str[(*i)] == '%' && str[(*i) + 1] == 'p' && ++(*i))
 		out += ft_putd(va_arg(args, unsigned long long), 2);
 	else if (str[(*i)] == '%' && (str[(*i) + 1] == 'd'
-		|| str[(*i) + 1] != 'd') && ++(*i))
+			|| str[(*i) + 1] != 'd') && ++(*i))
 		out += ft_putd(va_arg(args, int), 0);
 	else if (str[(*i)] == '%' && str[(*i) + 1] == 'u' && ++(*i))
 		out += ft_putd(va_arg(args, unsigned int), 0);
@@ -46,11 +46,11 @@ int	print(const char *str, int *i, va_list args)
 	return (out);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list args;
-	int	i;
-	int	out;
+	va_list	args;
+	int		i;
+	int		out;
 
 	i = -1;
 	out = 0;
