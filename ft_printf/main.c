@@ -1,6 +1,7 @@
 #include "ft_printf.h"
-
+#include <stdio.h>
 int main()
 {
-	ft_printf("lol%d %d", 123, 3);
+	char	*str = (char *)1;
+	ft_printf("%d", ft_printf("%p", str));
 }
