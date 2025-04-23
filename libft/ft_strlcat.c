@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/18 16:39:15 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:09:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dsize)
 	size_t	dst_len;
 	size_t	i;
 
-	if ((dsize == 0 && !dst) || dsize < ft_strlen(dst))
+	if ((dsize == 0 && !dst) || dsize <= ft_strlen(dst))
 		return (ft_strlen(src) + dsize);
 	dst_len = ft_strlen(dst);
 	i = 0;

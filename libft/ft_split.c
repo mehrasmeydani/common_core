@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/18 16:48:01 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:13:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**ft_free(char **in, int i)
 
 	j = -1;
 	while (++j < i)
-		free(in[i]);
+		free(in[j]);
 	free(in);
 	return (NULL);
 }
