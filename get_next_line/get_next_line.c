@@ -3,47 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 17:33:51 by megardes         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:00:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_free(char *red, char *buff, char *out)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*out;
-	char	*tmp;
-	size_t	i;
-
-	i = 0;
-	if (size == 0 || nmemb == 0)
-		return (malloc(0));
-	if (nmemb == SIZE_MAX || size == SIZE_MAX
-		|| (size * nmemb) / nmemb != size || size * nmemb > INT32_MAX)
-		return (NULL);
-	out = (void *)malloc(nmemb * size);
-	if (!out)
-		return (NULL);
-	tmp = (char *)out;
-	while (i < size)
+	if (out)
 	{
-		tmp[i] = 0;
-		i++;
+		free(out);
+		out = NULL;
 	}
-	return (out);
+	if (red)
+	{
+		free(red);
+		red = NULL;
+	}
+	if (buff)
+	{
+		free(buff);
+		buff = NULL;
+	}
+	return (buff);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dsize)
@@ -69,6 +55,8 @@ char	*ft_strchr(const char *s, int c)
 	ssize_t	i;
 	char	*tmp;
 
+	if (!s)
+		return (NULL);
 	i = -1;
 	while (s[++i])
 		if (s[i] == (char)c)
@@ -78,7 +66,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_relocat(char *in, char buff[BUFFER_SIZE])
+char	*ft_relocat(char *in, char *buff)
 {
 	char	*out;
 	size_t	mlen;
@@ -94,10 +82,10 @@ char	*ft_relocat(char *in, char buff[BUFFER_SIZE])
 	}
 	out = (char *)ft_calloc(ft_strlen(in) + mlen, 1);
 	if (!out)
-		return (NULL);
+		return (ft_free(in, NULL, NULL), NULL);
 	ft_strlcat(out, in, ft_strlen(in) + 1);
 	ft_strlcat(out, buff, ft_strlen(out) + mlen);
-	free(in);
+	ft_free(in, NULL, NULL);
 	return (out);
 }
 
@@ -111,35 +99,53 @@ char	*left(char *in)
 	if (!out)
 		return (free(in), NULL);
 	ft_strlcat(out, tmp, ft_strlen(tmp) + 1);
-	*(ft_strchr(in, '\n') + 1) = 0;
+	return (out);
+}
+
+char	*clean(char *in)
+{
+	char	*out;
+
+	out = (char *)ft_calloc(ft_strchr(in, '\n') - in + 2, 1);
+	if (!out)
+		return (NULL);
+	ft_strlcat(out, in, ft_strchr(in, '\n') - in + 2);
+	ft_free (in, NULL, NULL);
 	return (out);
 }
 
 char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE];
+	char		*buff;
 	static char	*red = NULL;
 	char		*out;
 	ssize_t		r;
 
-	out = red;
 	if (fd < 0)
 		return (NULL);
+	buff = (char *)ft_calloc(BUFFER_SIZE + 1, 1);
+	if (!buff)
+		return (ft_free(red, NULL, NULL), red = NULL, NULL);
+	out = red;
 	while (!out || !ft_strchr(out, '\n'))
 	{
 		r = read(fd, buff, BUFFER_SIZE);
 		if (r == -1)
-			return (free(out), out = NULL, free(red), red = NULL, NULL);
+			return (ft_free(buff, NULL, out), red = NULL, NULL);
 		if (r == 0)
 			break ;
+		buff[r] = 0;
 		out = ft_relocat(out, buff);
 		if (!out)
-			return (free(out), out = NULL, free(red), red = NULL, NULL);
+			return (ft_free(buff, NULL, NULL), red = NULL, NULL);
 	}
-	if (ft_strchr(out, '\n'))
+	if (ft_strchr(out, '\n') && *(ft_strchr(out, '\n') + 1))
 	{
 		red = left(out);
-		return (out);
+		if (!red)
+			return (red = NULL, ft_free(buff, NULL, NULL));
+		out = clean(out);
+		return (ft_free(buff, NULL, NULL), out);
 	}
-	return (red = NULL, out);
+	return (ft_free(buff, NULL, NULL), red = NULL, out);
 }
