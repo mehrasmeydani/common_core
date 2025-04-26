@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:29:54 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 23:28:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/26 23:33:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
-char	*get_next_line(int fd);
 size_t	ft_strlcat(char *dst, const char *src, size_t dsize);
 char	*ft_strchr(const char *s, int c);
-char	*ft_free(char *red, char *buff, char *out);
+char	*get_next_line(int fd);
 
 #endif

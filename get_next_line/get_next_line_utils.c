@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:15:16 by codespace         #+#    #+#             */
-/*   Updated: 2025/04/26 23:23:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/26 23:33:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		i++;
 	}
 	return (out);
-}
-
-char	*ft_free(char *red, char *buff, char *out)
-{
-	if (out)
-	{
-		free(out);
-		out = NULL;
-	}
-	if (red)
-	{
-		free(red);
-		red = NULL;
-	}
-	if (buff)
-	{
-		free(buff);
-		buff = NULL;
-	}
-	return (buff);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dsize)
