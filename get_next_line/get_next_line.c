@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 23:30:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/26 23:32:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char	*ft_relocat(char *in, char *buff)
 	}
 	out = (char *)ft_calloc(ft_strlen(in) + mlen, 1);
 	if (!out)
-		return (ft_free(in, NULL, NULL), NULL);
+		return (free(in), NULL);
 	ft_strlcat(out, in, ft_strlen(in) + 1);
 	ft_strlcat(out, buff, ft_strlen(out) + mlen);
-	ft_free(in, NULL, NULL);
+	free(in);
 	return (out);
 }
 
@@ -45,7 +45,7 @@ char	*left(char *in)
 	if (!out)
 		return (free(in), NULL);
 	ft_strlcat(out, tmp, ft_strlen(tmp) + 1);
-	ft_free(in, NULL, NULL);
+	free(in);
 	return (out);
 }
 
@@ -67,20 +67,20 @@ char	*readfile(int fd, char *red)
 
 	buff = (char *)ft_calloc(BUFFER_SIZE + 1, 1);
 	if (!buff)
-	return (ft_free(red, NULL, NULL), red = NULL);
+	return (free(red), red = NULL);
 	while (!red || !ft_strchr(red, '\n'))
 	{
 		r = read(fd, buff, BUFFER_SIZE);
 		if (r == -1)
-			return (ft_free(buff, red, NULL), red = NULL, NULL);
+			return (free(buff), free(red), red = NULL);
 		if (r == 0)
 			break ;
 		buff[r] = 0;
 		red = ft_relocat(red, buff);
 		if (!red)
-			return (ft_free(buff, NULL, NULL), red = NULL);
+			return (free(buff), red = NULL);
 	}
-	ft_free(buff, NULL, NULL);
+	free(buff);
 	return(red);
 }
 
@@ -98,7 +98,7 @@ char	*get_next_line(int fd)
 	{
 		out = clean(red);
 		if (!out)
-			return (ft_free(red, NULL, NULL), red = NULL);
+			return (free(red), red = NULL);
 		red = left(red);
 		if (!red)
 			return (free(out), red = NULL);
