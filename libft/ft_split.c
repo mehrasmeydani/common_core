@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/26 16:06:45 by megardes         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:38:26 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 ssize_t	count(const char *str, char c)
 {
 	size_t	j;
-	ssize_t		i;
+	ssize_t	i;
 
 	j = 0;
 	i = 0;
