@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:19:16 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/23 11:01:06 by megardes         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:09:22 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,72 +16,54 @@
 #include <stdlib.h>
 #include "libft.h"
 
-#define TEST(func, ...) test_##func(__VA_ARGS__)
-
-// Helper functions
-void print_memory(const void *ptr, size_t size) {
-    const unsigned char *p = ptr;
-    for (size_t i = 0; i < size; i++) printf("%02x ", p[i]);
-    printf("\n");
-}
+#define TEST(func, f, n) test_##n(ft_##func, func, f)
 
 void print_test_result(const char *func_name, int passed, const char *comment) {
-    printf("%-8s: %s %s\n", func_name, passed ? "✅ PASS" : "❌ FAIL", comment);
+    printf("%-8s: %s %s\n", func_name, passed ? "✅" : "❌", comment);
 }
 
-// Test functions
-void test_isalpha() {
+void test_1(int (*ft)(int), int (*f)(int), char *name) {
     int passed = 1;
     for (int c = -1; c <= 255; c++) {
-        if (ft_isalpha(c) != isalpha(c)) {
+        if ((!!f(c)) != !!ft(c)) {
             passed = 0;
             break;
         }
     }
-    print_test_result("isalpha", passed, "");
+    print_test_result(name, passed, "");
 }
 
-void test_isdigit() {
+void test_2(size_t (*ft)(char *), size_t (*f)(char *), char *name) {
     int passed = 1;
-    for (int c = -1; c <= 255; c++) {
-        if (isdigit(c) != ft_isdigit(c)) {
-            passed = 0;
-            break;
-        }
-    }
-    print_test_result("isdigit", passed, "");
+    char    *test = "abc";
+    char    *test2 = "";
+    if (f(test) != ft(test2))
+        passed = 0;
+    if (f(test2) != ft(test2))
+        passed = 0;
+    print_test_result(name, passed, "");
 }
 
-// [...] Similar tests for isalnum, isascii, isprint
-
-void test_strlen() {
-    struct { const char *s; size_t len; } tests[] = {
-        {"hello", 5}, {"", 0}, {"1234567890", 10}, {NULL, 0}
-    };
+void test3(void *(*f)(void *, int, size_t), void *(*f)(void *, int, size_t), char *name) {
     int passed = 1;
-    for (int i = 0; tests[i].s; i++) {
-        if (ft_strlen(tests[i].s) != tests[i].len) {
-            passed = 0;
-            break;
-        }
-    }
-    print_test_result("strlen", passed, "");
+    char    *ft_test = malloc(30);
+    char    *test = malloc(30);
+    if (strcmp((char *)f(ft_test, '\0', 30), (char *)f(ft_test, '\0', 30)))
+        passed = 0;
+    print_test_result(name, passed, "");
 }
-
-// [...] Tests for all other functions following the same pattern
 
 int main() {
     printf("=== Testing ft_* functions ===\n\n");
     
-    TEST(isalpha);
-	printf("%d", isalpha(65));
-    /*TEST(isdigit);
-    TEST(isalnum);
-    TEST(isascii);
-    TEST(isprint);
-    TEST(strlen);
-    TEST(memset);
-    TEST(bzero);
+    TEST(isalpha, "isalpha", 1);
+    TEST(isdigit, "isdigit", 1);
+    TEST(isalnum, "isalnum", 1);
+    TEST(isascii, "isascii", 1);
+    TEST(isprint, "isprint", 1);
+    TEST(strlen, "strlen", 2);
+    TEST(memset, "memset", 3);
+    /*TEST(bzero);
     TEST(memcpy);
     TEST(memmove);
     TEST(strlcpy);
@@ -96,6 +78,7 @@ int main() {
     TEST(strnstr);
     TEST(atoi);
     */
+   
     printf("\n=== Tests complete ===\n");
     return 0;
 }
