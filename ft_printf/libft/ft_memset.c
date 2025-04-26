@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/18 15:53:03 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:07:45 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	*ft_memset(void *s, int c, size_t n)
 	t_uc	*tmp;
 
 	tmp = (t_uc *)s;
-	i = -1;
-	while (++i < n)
-		tmp[i] = c;
+	i = 0;
+	while (i < n)
+		tmp[i++] = c;
 	return (s);
 }
