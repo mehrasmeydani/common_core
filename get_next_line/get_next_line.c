@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 18:00:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/26 19:39:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	*left(char *in)
 	if (!out)
 		return (free(in), NULL);
 	ft_strlcat(out, tmp, ft_strlen(tmp) + 1);
+	ft_free(in, NULL, NULL);
 	return (out);
 }
 
@@ -110,7 +111,6 @@ char	*clean(char *in)
 	if (!out)
 		return (NULL);
 	ft_strlcat(out, in, ft_strchr(in, '\n') - in + 2);
-	ft_free (in, NULL, NULL);
 	return (out);
 }
 
@@ -126,26 +126,27 @@ char	*get_next_line(int fd)
 	buff = (char *)ft_calloc(BUFFER_SIZE + 1, 1);
 	if (!buff)
 		return (ft_free(red, NULL, NULL), red = NULL, NULL);
-	out = red;
-	while (!out || !ft_strchr(out, '\n'))
+	while (!red || !ft_strchr(red, '\n'))
 	{
 		r = read(fd, buff, BUFFER_SIZE);
 		if (r == -1)
-			return (ft_free(buff, NULL, out), red = NULL, NULL);
+			return (ft_free(buff, red, NULL), red = NULL, NULL);
 		if (r == 0)
 			break ;
 		buff[r] = 0;
-		out = ft_relocat(out, buff);
-		if (!out)
+		red = ft_relocat(red, buff);
+		if (!red)
 			return (ft_free(buff, NULL, NULL), red = NULL, NULL);
 	}
-	if (ft_strchr(out, '\n') && *(ft_strchr(out, '\n') + 1))
+	if (ft_strchr(red, '\n') && *(ft_strchr(red, '\n') + 1))
 	{
-		red = left(out);
+		out = clean(red);
+		if (!out)
+			return (ft_free(red, buff, NULL), red = NULL, NULL);
+		red = left(red);
 		if (!red)
 			return (red = NULL, ft_free(buff, NULL, NULL));
-		out = clean(out);
 		return (ft_free(buff, NULL, NULL), out);
 	}
-	return (ft_free(buff, NULL, NULL), red = NULL, out);
+	return (ft_free(buff, NULL, NULL),out = red, red = NULL, out);
 }
