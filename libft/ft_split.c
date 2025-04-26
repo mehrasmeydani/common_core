@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/23 12:13:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/26 16:06:45 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	count(const char *str, char c)
+ssize_t	count(const char *str, char c)
 {
-	int		j;
-	int		i;
+	size_t	j;
+	ssize_t		i;
 
 	j = 0;
 	i = 0;
@@ -31,9 +31,9 @@ int	count(const char *str, char c)
 	return (i);
 }
 
-char	**ft_free(char **in, int i)
+char	**ft_free(char **in, ssize_t i)
 {
-	int	j;
+	ssize_t	j;
 
 	j = -1;
 	while (++j < i)
@@ -44,11 +44,11 @@ char	**ft_free(char **in, int i)
 
 char	*str(char *s, char c)
 {
-	int		i;
+	size_t	i;
 	char	*out;
 
-	i = -1;
-	while (s[++i] && s[i] != c)
+	i = 0;
+	while (s[i] && s[i] != c && ++i)
 		;
 	out = ft_substr(s, 0, i);
 	if (!out)
@@ -60,7 +60,7 @@ char	**ft_split(char const *s, char c)
 {
 	char	**out;
 	char	*tmp;
-	int		i;
+	ssize_t	i;
 
 	i = -1;
 	if (!s)

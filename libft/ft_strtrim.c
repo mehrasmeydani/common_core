@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:48 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/18 16:47:07 by mehras           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:15:54 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_in(const char *set, char c)
 {
-	int	i;
+	ssize_t	i;
 
 	i = -1;
 	while (set[++i])
@@ -31,10 +31,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 1;
-	while (is_in(set, s1[++i]))
-		;
+	while (is_in(set, s1[i]))
+		i++;
 	while (i != ft_strlen(s1) && is_in(set, s1[ft_strlen(s1) - j]))
 		j++;
 	j--;
