@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:48:39 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 14:31:08 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/28 13:59:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,3 +110,16 @@ int main() {
     //printf("\n=== Tests complete ===\n");
     return 0;
 }*/
+
+#include <stddef.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+
+int main()
+{
+    size_t i = -1;
+
+    //--i;
+    printf("%zu", i);
+}
