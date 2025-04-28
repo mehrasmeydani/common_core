@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 11:37:35 by megardes          #+#    #+#              #
-#    Updated: 2025/04/23 12:55:40 by codespace        ###   ########.fr        #
+#    Updated: 2025/04/28 15:42:26 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,6 @@ fclean:		clean
 			rm -f ${NAME}
 			rm -f a.out
 			
-bonus:
 
 re:			fclean all
 
