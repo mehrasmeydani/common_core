@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/04/28 19:40:55 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/30 20:04:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 long	ft_atol(const char *nptr)
 {
-	long		out;
+	long	out;
 	ssize_t	j;
-	long		sign;
+	long	sign;
 
 	out = 0;
 	j = -1;
@@ -32,71 +32,6 @@ long	ft_atol(const char *nptr)
 	return (out * sign);
 }
 
-ssize_t	ft_strstrstrlen(char ***in)
-{
-	ssize_t	i;
-
-	i = -1;
-	if (!in)
-		return (0);
-	while (in[++i])
-		;
-	return (i);
-}
-
-ssize_t	ft_strstrlen(char **in)
-{
-	ssize_t	i;
-
-	i = -1;
-	if (!in)
-		return (0);
-	while (in[++i])
-		;
-	return (i);
-}
-
-char	**ft_free(char **in, ssize_t i)
-{
-	ssize_t	j;
-
-	j = -1;
-	while (++j < i)
-		free(in[j]);
-	free(in);
-	return (NULL);
-}
-
-char	***ft_free_free(char ***in, ssize_t i)
-{
-	ssize_t	j;
-
-	j = -1;
-	while (++j < i)
-		ft_free(in[j], ft_strstrlen(in[j]));
-	free(in);
-	return (NULL);
-}
-
-char	***ft_splits(ssize_t argc, char **argv)
-{
-	char	***out;
-	ssize_t	i;
-
-	i = -1;
-	out = (char ***)malloc((argc + 1) * sizeof(char **));
-	if (!out)
-		return (NULL);
-	out[argc] = NULL;
-	while(++i < argc)
-	{
-		out[i] = ft_split(argv[i], ' ');
-		if (!out[i])
-			return (ft_free_free(out, i));
-	}
-	return (out);
-}
-
 void	ft_nums(t_ps *in)
 {
 	ssize_t	i[3];
@@ -107,7 +42,7 @@ void	ft_nums(t_ps *in)
 		return ;
 	while (in->in[++(i[1])])
 		i[0] += ft_strstrlen(in->in[i[1]]);
-	in->out = (char	**)malloc((i[0] + 1) * sizeof(char *));
+	in->out = (char **)malloc((i[0] + 1) * sizeof(char *));
 	if (!in->out)
 		return ;
 	in->out[i[0]] = NULL;
@@ -126,40 +61,18 @@ void	ft_nums(t_ps *in)
 	in->size = i[2];
 }
 
-void	init(t_ps *in, t_stack *a, t_stack *b)
-{
-	in->in = NULL;
-	in->out = NULL;
-	in->lis = NULL;
-	in->num = NULL;
-	in->sorted = NULL;
-	in->size = 0;
-	b->d_down = 0;
-	b->d_opt = 0;
-	b->d_up = 0;
-	b->num = 0;
-	b->next = NULL;
-	b->prev = NULL;
-	a->d_down = 0;
-	a->d_opt = 0;
-	a->d_up = 0;
-	a->num = 0;
-	a->next = NULL;
-	a->prev = NULL;
-}
-
 bool	valid(char *in)
 {
 	int		sign;
 	ssize_t	i;
-	
+
 	i = -1;
 	sign = 0;
 	while (in[++i])
 	{
 		if (!ft_isdigit(in[i]) && !(in[i] == '-' || in[i] == '+'))
 			return (0);
-		if (in[i] == '-' || in[i] == '+')	
+		if (in[i] == '-' || in[i] == '+')
 			sign++;
 		if (sign > 1)
 			return (0);
@@ -174,8 +87,15 @@ void	tol(t_ps *in)
 
 	i = -1;
 	in->num = (long *)malloc(sizeof(long) * in->size);
-	if (!in->num)
-		return ;
+	in->sorted = (long *)malloc(sizeof(long) * in->size);
+	in->lis = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->idx = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->lis_util = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->lis_util2 = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	if (!in->lis || !in->sorted || !in->num || !in->idx || !in->lis_util
+		|| !in->lis_util2)
+		return (free(in->sorted), free(in->num), free(in->lis), free(in->idx),
+			free(in->lis_util), free(in->lis_util2), (void)(in->num = NULL));
 	while (++i < in->size)
 	{
 		j = -1;
@@ -183,17 +103,201 @@ void	tol(t_ps *in)
 		while (++j < i)
 			if (in->num[j] == in->num[i] || in->num[i] > 2147483647
 				|| in->num[i] < -2147483648 || !valid(in->out[i]))
-				return (free(in->num), (void)(in->num = NULL), 
-						ft_putendl_fd("Error", 2));
+				return (free(in->num), (void)(in->num = NULL),
+						free(in->sorted), ft_putendl_fd("Error", 2));
+		in->sorted[i] = in->num[i];
+	}
+}
+
+void	ft_swap(long *a, long *b)
+{
+	long	why;
+
+	why = *a;
+	*a = *b;
+	*b = why;
+}
+
+void	reset_values(t_ps *in)
+{
+	ssize_t	j;
+	ssize_t	i;
+
+	i = -1;
+	while (++i < in->size)
+	{
+		j = -1;
+		while (++j < in->size)
+		{
+			if (in->sorted[i] == in->num[j])
+			{
+				in->idx[j] = i;
+				in->lis[j] = i;
+				in->lis_util[j] = i;
+			}
+		}
+	}
+	free(in->num);
+	free(in->sorted);
+}
+
+void	ft_sort_long_tab(long *tab, ssize_t size)
+{
+	ssize_t	i;
+	ssize_t	j;
+
+	i = -1;
+	while (++i < size)
+	{
+		j = i;
+		while (++j < size)
+			if (tab[j] < tab[i])
+				ft_swap(&tab[j], &tab[i]);
+	}
+}
+
+ssize_t	lis(ssize_t *arr, ssize_t n, ssize_t *max_ref)
+{
+	ssize_t	res;
+	ssize_t	max_ending_here;
+	ssize_t	i;
+
+	res = 1;
+	max_ending_here = 1;
+	i = 1;
+	if (n == 1)
+		return (1);
+	while (i < n)
+	{
+		res = lis(arr, i, max_ref);
+		if (arr[i - 1] < arr[n - 1] && res + 1 > max_ending_here)
+			max_ending_here = res + 1;
+		i++;
+	}
+	if (*max_ref < max_ending_here)
+		*max_ref = max_ending_here;
+	return (max_ending_here);
+}
+
+ssize_t	do_lis(ssize_t *list, ssize_t n)
+{
+	ssize_t	max;
+
+	max = 1;
+	lis(list, n, &max);
+	return (max);
+}
+
+void	rotate(ssize_t *list, ssize_t size)
+{
+	ssize_t	tmp;
+	ssize_t	i;
+
+	tmp = list[0];
+	i = -1;
+	while (++i < size - 1)
+		list[i] = list[i + 1];
+	list[size - 1] = tmp;
+}
+
+ssize_t	best_lis(t_ps *in)
+{
+	ssize_t	out;
+	ssize_t	i;
+	ssize_t	max;
+	ssize_t	tmp;
+
+	i = -1;
+	out = -1;
+	max = -1;
+	while (++i < in->size)
+	{
+		tmp = do_lis(in->lis, in->size);
+		if (tmp > max)
+		{
+			max = tmp;
+			out = in->lis[0];
+		}
+		rotate(in->lis, in->size);
+	}
+	return (out);
+}
+
+
+
+ssize_t	search_place(ssize_t *lis, ssize_t new, ssize_t size)
+{
+	ssize_t	i;
+
+	i = -1;
+	while (lis[++i] != -1 && i < size && lis[i] < new)
+		;
+	if (lis[i] == -1)
+		return (lis[i] = new, i);
+	return (lis[i - 1] = new, i);
+}
+
+void	set_lis(t_ps *in, ssize_t best)
+{
+	ssize_t	i;
+	ssize_t	max;
+
+	i = -1;
+	while (in->lis_util[0] != best)
+		rotate(in->lis_util, in->size);
+	max = do_lis(in->lis_util, in->size) - 1;
+	while (++i < in->size)
+		in->lis[i] = search_place(in->lis_util2, in->lis_util[i], in->size);
+	i = -1;
+	while (++i < in->size)
+	{
+		ft_putnbr_fd(in->lis[in->size - i - 1], 1);
+		if (in->lis[in->size - i - 1] == max)
+		{
+			in->lis[in->size - i - 1] = 1;
+			max--;
+		}
+		else
+			in->lis[in->size - i - 1] = 0;
+	}
+	while (in->lis_util[0] != in->idx[0])
+	{
+		rotate(in->lis_util, in->size);
+		rotate(in->lis, in->size);
 	}
 }
 
 bool	check(t_ps *in, t_stack *a, t_stack *b)
 {
+	ssize_t	best;
+
 	tol(in);
 	ft_free(in->out, ft_strstrlen(in->out));
 	if (!in->num)
 		return (0);
+	ft_sort_long_tab(in->sorted, in->size);
+	reset_values(in);
+	best = best_lis(in);
+	ft_memset(in->lis, -1, in->size);
+	ft_memset(in->lis_util2, -1, in->size);
+	set_lis(in, best);
+	best = -1;
+	while (++best < in->size)
+		ft_putnbr_fd(in->idx[best], 1), ft_putchar_fd(' ', 1);
+	ft_putendl_fd("\n", 1);
+	best = -1;
+	while (++best < in->size)
+		ft_putnbr_fd(in->lis_util[best], 1), ft_putchar_fd(' ', 1);
+	ft_putendl_fd("\n", 1);
+	best = -1;
+	while (++best < in->size)
+		ft_putnbr_fd(in->lis[best], 1), ft_putchar_fd(' ', 1);
+	ft_putendl_fd("\n", 1);
+	best = -1;
+	while (++best < in->size)
+		if (in->lis[best] == 1)
+			ft_putnbr_fd(in->lis_util[best], 1), ft_putchar_fd(' ', 1);
+	ft_putendl_fd("\n", 1);
 	(void)a;
 	(void)b;
 	return (1);
@@ -203,7 +307,7 @@ int	main(int argc, char **argv)
 {
 	t_ps	ps;
 	t_stack	a;
-	t_stack b;
+	t_stack	b;
 
 	if (argc < 2)
 		return (1);
@@ -211,10 +315,11 @@ int	main(int argc, char **argv)
 	ps.in = ft_splits((ssize_t)(argc - 1), &argv[1]);
 	ft_nums(&ps);
 	if (!ps.out)
-		return (puts("what"), ft_free_free(ps.in, ft_strstrstrlen(ps.in)), 1);
+		return (ft_free_free(ps.in, ft_strstrstrlen(ps.in)), 1);
 	if (!check(&ps, &a, &b))
-	 	return (1);
-	//ft_free_free(ps.in, ft_strstrstrlen(ps.in));
-	free(ps.num);
-	//push_swap(&ps, &a, &b);
+		return (1);
 }
+
+	//ft_free_free(ps.in, ft_strstrstrlen(ps.in));
+	//free(ps.num);
+	//push_swap(&ps, &a, &b);
