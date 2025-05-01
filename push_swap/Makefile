@@ -6,11 +6,11 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/04/30 16:02:36 by codespace        ###   ########.fr        #
+#    Updated: 2025/05/01 12:19:09 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC		= main.c init.c ft_splits.c frees.c
+SRC		= main.c init.c ft_splits.c frees.c lis.c stack.c stack2.c ft_atol.c
 SRC_B	=
 SRCS	= ${addprefix ${PRE}, ${SRC}}
 SRCS_B	= ${addprefix ${PRE}, ${SRC_B}}

@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 15:58:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:03:06 by codespace        ###   ########.fr       */
+/*   Created: 2025/05/01 12:17:43 by codespace         #+#    #+#             */
+/*   Updated: 2025/05/01 12:18:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
 
-void	init(t_ps *in, t_stack *a, t_stack *b)
+long	ft_atol(const char *nptr)
 {
-	in->in = NULL;
-	in->out = NULL;
-	in->lis = NULL;
-	in->num = NULL;
-	in->sorted = NULL;
-	in->lis_util = NULL;
-	in->lis_util2 = NULL;
-	in->idx = NULL;
-	in->size = 0;
-	b->d_down = 0;
-	b->d_opt = 0;
-	b->d_up = 0;
-	b->num = 0;
-	b->next = NULL;
-	b->prev = NULL;
-	a->d_down = 0;
-	a->d_opt = 0;
-	a->d_up = 0;
-	a->num = 0;
-	a->next = NULL;
-	a->prev = NULL;
+	long	out;
+	ssize_t	j;
+	long	sign;
+
+	out = 0;
+	j = -1;
+	sign = 1;
+	while (nptr[++j] == 32 || (nptr[j] >= 9 && nptr[j] <= 13))
+		;
+	if ((nptr[j] == '-' || nptr[j] == '+') && ++j)
+		if (nptr[j - 1] == '-')
+			sign = -1;
+	while (nptr[j] >= '0' && nptr[j] <= '9')
+		out = out * 10 + nptr[j++] - '0';
+	return (out * sign);
 }
