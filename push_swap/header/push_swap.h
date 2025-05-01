@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:33 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:19:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 13:23:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	**ft_free(char **in, ssize_t i);
 char	***ft_free_free(char ***in, ssize_t i);
 void	set_lis(t_ps *in);
 void	ft_sort_long_tab(long *tab, ssize_t size);
+bool	check(t_ps *in);
+void	ft_nums(t_ps *in);
 
 void	ft_stackadd_front(t_stack **stack, t_stack *new);
 t_stack	*ft_stacknew(t_ps *in, ssize_t i);
@@ -57,5 +59,6 @@ t_stack	*ft_stacklast(t_stack *stack);
 t_stack	*ft_stackfirs(t_stack *stack);
 void	ft_stackadd_back(t_stack **stack, t_stack *new);
 void	ft_stackclear(t_stack **stack);
+t_stack	*make_stack(t_ps *in);
 
 #endif

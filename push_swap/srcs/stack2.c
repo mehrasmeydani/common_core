@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:05 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:15:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 13:20:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,21 @@ void	ft_stackadd_front(t_stack **stack, t_stack *new)
 			new->next = *stack;
 		*stack = new;
 	}
+}
+t_stack	*make_stack(t_ps *in)
+{
+	t_stack	*new;
+	t_stack	*out;
+	ssize_t	i;
+
+	i = -1;
+	out = NULL;
+	while (++i < in->size)
+	{
+		new = ft_stacknew(in, i);
+		if (!new)
+			return (ft_stackclear(&out), NULL);
+		ft_stackadd_back(&out, new);
+	}
+	return (out);
 }
