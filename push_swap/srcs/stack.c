@@ -6,15 +6,15 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:04:10 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:15:24 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 12:22:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
 
-t_stack *ft_stacknew(t_ps *in, ssize_t i)
+t_stack	*ft_stacknew(t_ps *in, ssize_t i)
 {
-	t_stack *new;
+	t_stack	*new;
 
 	new = (t_stack *)ft_calloc(sizeof(t_stack), 1);
 	if (!new)

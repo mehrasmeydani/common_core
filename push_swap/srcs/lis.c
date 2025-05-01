@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:00:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:19:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 12:21:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static ssize_t	best_lis(t_ps *in)
 	ssize_t	max;
 	ssize_t	tmp;
 
-	i = - 1;
+	i = -1;
 	out = -1;
 	max = -1;
 	while (++i < in->size)
@@ -85,7 +85,6 @@ static ssize_t	best_lis(t_ps *in)
 			max = tmp;
 			out = in->lis_util[0];
 		}
-		
 		rotate(in->lis_util, in->size);
 	}
 	return (out);
