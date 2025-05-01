@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_sort_int_tab.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 15:58:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:14:52 by codespace        ###   ########.fr       */
+/*   Created: 2025/05/01 13:18:43 by codespace         #+#    #+#             */
+/*   Updated: 2025/05/01 13:19:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
 
-void	init(t_ps *in)
+static void	ft_swap(long *a, long *b)
 {
-	in->in = NULL;
-	in->out = NULL;
-	in->lis = NULL;
-	in->num = NULL;
-	in->sorted = NULL;
-	in->lis_util = NULL;
-	in->lis_util2 = NULL;
-	in->idx = NULL;
-	in->size = 0;
+	long	why;
+
+	why = *a;
+	*a = *b;
+	*b = why;
+}
+
+void	ft_sort_long_tab(long *tab, ssize_t size)
+{
+	ssize_t	i;
+	ssize_t	j;
+
+	i = -1;
+	while (++i < size)
+	{
+		j = i;
+		while (++j < size)
+			if (tab[j] < tab[i])
+				ft_swap(&tab[j], &tab[i]);
+	}
 }

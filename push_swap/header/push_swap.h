@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:33 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:23:29 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 13:19:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ typedef struct s_stack
 }	t_stack;
 
 long	ft_atol(const char *nptr);
-void	init(t_ps *in, t_stack *a, t_stack *b);
+void	init(t_ps *in);
 char	***ft_splits(ssize_t argc, char **argv);
 ssize_t	ft_strstrstrlen(char ***in);
 ssize_t	ft_strstrlen(char **in);
 char	**ft_free(char **in, ssize_t i);
 char	***ft_free_free(char ***in, ssize_t i);
 void	set_lis(t_ps *in);
+void	ft_sort_long_tab(long *tab, ssize_t size);
 
 void	ft_stackadd_front(t_stack **stack, t_stack *new);
 t_stack	*ft_stacknew(t_ps *in, ssize_t i);

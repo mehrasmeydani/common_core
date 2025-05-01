@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:00:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:21:41 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 12:52:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,6 @@ void	set_lis(t_ps *in)
 		rotate(in->lis_util, in->size);
 		rotate(in->lis, in->size);
 	}
+	free(in->lis_util2);
+	free(in->lis_util);
 }

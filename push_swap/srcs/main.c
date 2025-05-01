@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 14:49:13 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:19:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,6 @@ void	tol(t_ps *in)
 	}
 }
 
-void	ft_swap(long *a, long *b)
-{
-	long	why;
-
-	why = *a;
-	*a = *b;
-	*b = why;
-}
-
 void	reset_values(t_ps *in)
 {
 	ssize_t	j;
@@ -122,29 +113,25 @@ void	reset_values(t_ps *in)
 	free(in->sorted);
 }
 
-void	ft_sort_long_tab(long *tab, ssize_t size)
-{
-	ssize_t	i;
-	ssize_t	j;
-
-	i = -1;
-	while (++i < size)
-	{
-		j = i;
-		while (++j < size)
-			if (tab[j] < tab[i])
-				ft_swap(&tab[j], &tab[i]);
-	}
-}
-
 t_stack	*make_stack(t_ps *in)
 {
+	t_stack	*new;
+	t_stack	*out;
 	ssize_t	i;
 
 	i = -1;
+	out = NULL;
+	while (++i < in->size)
+	{
+		new = ft_stacknew(in, i);
+		if (!new)
+			return (ft_stackclear(&out), NULL);
+		ft_stackadd_back(&out, new);
+	}
+	return (out);
 }
 
-bool	check(t_ps *in, t_stack *a)
+bool	check(t_ps *in)
 {
 	tol(in);
 	ft_free(in->out, ft_strstrlen(in->out));
@@ -153,31 +140,30 @@ bool	check(t_ps *in, t_stack *a)
 	ft_sort_long_tab(in->sorted, in->size);
 	reset_values(in);
 	set_lis(in);
-	a = make_stack(in);
-	free(in->idx);
-	free(in->lis);
-	free(in->lis_util2);
-	free(in->lis_util);
-	if (!a)
-		return (0);
 	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_ps	ps;
-	t_stack	a;
-	t_stack	b;
+	t_stack	*a;
+	t_stack	*b;
 
 	if (argc < 2)
 		return (1);
-	init(&ps, &a, &b);
+	init(&ps);
 	ps.in = ft_splits((ssize_t)(argc - 1), &argv[1]);
 	ft_nums(&ps);
 	if (!ps.out)
 		return (ft_free_free(ps.in, ft_strstrstrlen(ps.in)), 1);
-	if (!check(&ps, &a))
+	if (!check(&ps))
 		return (1);
+	a = make_stack(&ps);
+	free(ps.lis);
+	free(ps.idx);
+	b = NULL;
+	(void)b;
+	ft_stackclear(&a);
 }
 
 	//ft_free_free(ps.in, ft_strstrstrlen(ps.in));
