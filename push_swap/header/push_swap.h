@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:33 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:23:54 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 14:53:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_push_swap
 
 typedef struct s_stack
 {
-	int				num;
+	ssize_t			num;
 	int				d_up;
 	int				d_down;
 	int				d_opt;
@@ -56,9 +56,14 @@ void	ft_nums(t_ps *in);
 void	ft_stackadd_front(t_stack **stack, t_stack *new);
 t_stack	*ft_stacknew(t_ps *in, ssize_t i);
 t_stack	*ft_stacklast(t_stack *stack);
-t_stack	*ft_stackfirs(t_stack *stack);
+t_stack	*ft_stackfirst(t_stack *stack);
 void	ft_stackadd_back(t_stack **stack, t_stack *new);
 void	ft_stackclear(t_stack **stack);
 t_stack	*make_stack(t_ps *in);
+
+void	s(t_stack **a, t_stack **b, char *c);
+void	p(t_stack **a, t_stack **b, char *c);
+void	r(t_stack **a, t_stack **b, char *c);
+void	rr(t_stack **a, t_stack **b, char *c);
 
 #endif
