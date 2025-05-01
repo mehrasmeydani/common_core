@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:19:46 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 14:49:13 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,13 @@ void	ft_sort_long_tab(long *tab, ssize_t size)
 	}
 }
 
+t_stack	*make_stack(t_ps *in)
+{
+	ssize_t	i;
+
+	i = -1;
+}
+
 bool	check(t_ps *in, t_stack *a)
 {
 	tol(in);
@@ -146,7 +153,11 @@ bool	check(t_ps *in, t_stack *a)
 	ft_sort_long_tab(in->sorted, in->size);
 	reset_values(in);
 	set_lis(in);
-	//a = make_stack(in);
+	a = make_stack(in);
+	free(in->idx);
+	free(in->lis);
+	free(in->lis_util2);
+	free(in->lis_util);
 	if (!a)
 		return (0);
 	return (1);
