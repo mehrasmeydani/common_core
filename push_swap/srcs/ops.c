@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:38:03 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 15:11:20 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/01 16:16:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,26 @@ static void	swap(t_stack **a)
 void	s(t_stack **a, t_stack **b, char *c)
 {
 	if (c[1] == 'a')
+	{
+		if (!*a || !(*a)->next)
+			return ;
 		swap(a);
+	}
 	if (c[1] == 'b')
+	{
+		if (!*b || !(*b)->next)
+			return ;
 		swap(b);
+	}
 	if (c[1] == 's')
 	{
-		s(a, b, "sa");
-		s(a, b, "sb");
+		if (!*a || !*b || !(*b)->next || !(*a)->next)
+			return ;
+		s(a, b, " a");
+		s(a, b, " b");
 	}
-	//ft_putendl_fd(c, 1);
+	if (c[0] != ' ')
+		ft_putendl_fd(c, 1);
 }
 
 static void	push(t_stack **a, t_stack **b)
@@ -59,10 +70,18 @@ static void	push(t_stack **a, t_stack **b)
 void	p(t_stack **a, t_stack **b, char *c)
 {
 	if (c[1] == 'a')
+	{
+		if (!*b)
+			return ;
 		push(b, a);
+	}
 	if (c[1] == 'b')
+	{
+		if (!*a)
+			return ;
 		push(a, b);
-	//ft_putendl_fd(c, 1);
+	}
+	ft_putendl_fd(c, 1);
 }
 
 static void	rotate(t_stack **a)
@@ -80,15 +99,26 @@ static void	rotate(t_stack **a)
 void	r(t_stack **a, t_stack **b, char *c)
 {
 	if (c[1] == 'a')
+	{
+		if (!*a || !(*a)->next)
+			return ;
 		rotate(a);
+	}
 	if (c[1] == 'b')
+	{
+		if (!*b || !(*b)->next)
+			return ;
 		rotate(b);
+	}
 	if (c[1] == 'r')
 	{
-		r(a, b, "ra");
-		r(a, b, "rb");
+		if (!*b || !(*b)->next || !*a || !(*a)->next)
+			return ;
+		r(a, b, " a");
+		r(a, b, " b");
 	}
-	//ft_putendl_fd(c, 1);
+	if (c[0] != ' ')
+		ft_putendl_fd(c, 1);
 }
 
 static void	rrotate(t_stack **a)
