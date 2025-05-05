@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:15:05 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:20:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/05 11:57:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,15 @@ t_stack	*make_stack(t_ps *in)
 		ft_stackadd_back(&out, new);
 	}
 	return (out);
+}
+
+ssize_t	ft_stacksize(t_stack *in)
+{
+	ssize_t	i;
+
+	i = 0;
+	in = ft_stackfirst(in);
+	while (in && ++i)
+		in = in->next;
+	return (i);
 }

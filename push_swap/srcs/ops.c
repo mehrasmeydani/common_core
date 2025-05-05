@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:38:03 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 16:16:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/05 11:54:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,9 @@ void	rr(t_stack **a, t_stack **b, char *c)
 		rrotate(b);
 	if (c[2] == 'r')
 	{
-		rr(a, b, "rra");
-		rr(a, b, "rrb");
+		rr(a, b, "  a");
+		rr(a, b, "  b");
 	}
-	//ft_putendl_fd(c, 1);
+	if (c[0] != ' ')
+		ft_putendl_fd(c, 1);
 }
