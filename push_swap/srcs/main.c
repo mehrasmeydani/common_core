@@ -6,15 +6,16 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/05 16:55:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/05 23:20:35 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
 #include <stdio.h>
 
-void	ft_printstack(t_stack *a)
+void	ft_printstack(t_stack *a, char c)
 {
+	printf("%c:\n", c);
 	if (!a)
 		printf("%p\n", a);
 	while (a)
@@ -162,11 +163,13 @@ t_stack	*find_opt(t_stack *a, t_stack *b)
 	t_stack	*tmp;
 
 	tmp = a;
-	if ((b->num > ft_stacklast(a)->num && b->num < a->num) || (b->num < min(a) && a->num == min(a)))
+	if ((b->num > ft_stacklast(a)->num && b->num < a->num) || (b->num < min(a) && a->num == min(a)) || (b->num > max(a) && ft_stacklast(a)->num == max(a))) // check for fucking max and min at the end of the stack idiot
 		return (a);
 	while (a && a->next)
 	{
-		if (b->num < a->next->num && ((a->num == max(tmp) && a->next->num == min(tmp)) || (b->num > a->num)))
+		if ((b->num < a->next->num && a->next->num == min(tmp)) ||
+			((a->num == max(tmp)) && (b->num > a->num)) ||
+			(b->num < a->next->num && (b->num > a->num)))
 			break ;
 		a = a->next;
 	}
@@ -206,7 +209,10 @@ void	set_opt(t_stack *a, t_stack *b)
 	while (b)
 	{
 		opt = find_opt(a, b);
+		// ft_printstack(opt, 'o');
+		// ft_printstack(b, 'b');
 		set_moves(b, opt);
+		//puts("what");
 		if (num == -1 || min > b->d_opt)
 		{
 			num = b->num;
@@ -214,9 +220,10 @@ void	set_opt(t_stack *a, t_stack *b)
 		}
 		b = b->next;
 	}
+	//printf("%zu\n", min);
 	while (tmp)
 	{
-		tmp->opt = (num == tmp->num) * min;
+		tmp->opt = (num == tmp->num) * min + -1 * (num != tmp->num);
 		tmp = tmp->next;
 	}
 }
@@ -225,7 +232,7 @@ ssize_t	find_case(t_stack *b)
 {
 	while (b)
 	{
-		if (b->opt)
+		if (b->opt != -1)
 			break;
 		b = b->next;
 	}
@@ -250,7 +257,7 @@ void	uu(t_stack **a, t_stack **b)
 	opt_b = *b;
 	while (opt_b)
 	{
-		if (opt_b->opt)
+		if (opt_b->opt != -1)
 			break ;
 		opt_b = opt_b->next;
 	}
@@ -274,7 +281,7 @@ void	dd(t_stack **a, t_stack **b)
 	opt_b = *b;
 	while (opt_b)
 	{
-		if (opt_b->opt)
+		if (opt_b->opt != -1)
 			break ;
 		opt_b = opt_b->next;
 	}
@@ -298,7 +305,7 @@ void	ud(t_stack **a, t_stack **b)
 	opt_b = *b;
 	while (opt_b)
 	{
-		if (opt_b->opt)
+		if (opt_b->opt != -1)
 			break ;
 		opt_b = opt_b->next;
 	}
@@ -320,15 +327,15 @@ void	du(t_stack **a, t_stack **b)
 	opt_b = *b;
 	while (opt_b)
 	{
-		if (opt_b->opt)
+		if (opt_b->opt != -1)
 			break ;
 		opt_b = opt_b->next;
 	}
 	opt_a = find_opt(*a, opt_b);
-	while (++i < opt_a->d_up)
+	while (++i < opt_a->d_down)
 		r(a, b, "rb");
 	i = -1;
-	while (++i < opt_b->d_down)
+	while (++i < opt_b->d_up)
 		rr(a, b, "rra");
 }
 
@@ -376,13 +383,15 @@ void	push_swap(t_stack **a, t_stack **b, ssize_t size)
 			continue ;
 		}
 		//printf("%zu\n", c);
-		//ft_printstack(*a);
-		//ft_printstack(*b);
+		//puts("what");
 		set_opt(*a, *b);
 		c = find_case(*b);
+		//printf("%zu\n", c);
 		turn_till_opt(a, b, c);
 		p(a, b, "pa");
 	}
+	// ft_printstack(*a, 'a');
+	// ft_printstack(*b, 'b');	
 }
 
 int	main(int argc, char **argv)

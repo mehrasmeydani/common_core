@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:21:13 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:23:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/05 20:24:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	ft_nums(t_ps *in)
 		return ;
 	while (in->in[++(i[1])])
 		i[0] += ft_strstrlen(in->in[i[1]]);
-	in->out = (char **)malloc((i[0] + 1) * sizeof(char *));
+	in->out = (char **)ft_calloc((i[0] + 1), sizeof(char *));
 	if (!in->out)
 		return ;
-	in->out[i[0]] = NULL;
 	i[2] = -1;
 	i[1] = -1;
 	while (in->in[++i[1]])
@@ -34,9 +33,7 @@ void	ft_nums(t_ps *in)
 		while (in->in[i[1]][++i[0]] && ++i[2] > -1)
 			in->out[i[2]] = in->in[i[1]][i[0]];
 		free(in->in[i[1]]);
-		in->in[i[1]] = NULL;
 	}
 	free(in->in);
-	in->in = NULL;
 	in->size = i[2] + 1;
 }
