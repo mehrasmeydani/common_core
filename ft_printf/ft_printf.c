@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:38:04 by megardes          #+#    #+#             */
-/*   Updated: 2025/04/26 16:50:11 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:44:04 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_putp(unsigned long long a, int *out, int run)
 	if (a == 0 && run == 0)
 	{
 		*out += write(1, "(nil)", 5);
-		return;
+		return ;
 	}
 	else if (run == 0)
 		*out += write(1, "0x", 2);
