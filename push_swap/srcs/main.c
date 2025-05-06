@@ -6,12 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:33:30 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/06 11:36:40 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
-#include <stdio.h>
 
 void	set_d(t_stack *a, t_stack *b)
 {
