@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:33 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/05 15:46:22 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/06 11:35:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_stack
 	struct s_stack	*prev;	
 }	t_stack;
 
-
 long	ft_atol(const char *nptr);
 void	init(t_ps *in);
 char	***ft_splits(ssize_t argc, char **argv);
@@ -71,5 +70,20 @@ void	s(t_stack **a, t_stack **b, char *c);
 void	p(t_stack **a, t_stack **b, char *c);
 void	r(t_stack **a, t_stack **b, char *c);
 void	rr(t_stack **a, t_stack **b, char *c);
+
+void	du(t_stack **a, t_stack **b);
+void	ud(t_stack **a, t_stack **b);
+void	dd(t_stack **a, t_stack **b);
+void	uu(t_stack **a, t_stack **b);
+
+void	set_opt(t_stack *a, t_stack *b);
+t_stack	*find_opt(t_stack *a, t_stack *b);
+
+ssize_t	max(t_stack *a);
+ssize_t	min(t_stack *a);
+
+void	push_swap(t_stack **a, t_stack **b, ssize_t size);
+void	push_b_nonlis(t_stack **a, t_stack **b);
+void	set_d(t_stack *a, t_stack *b);
 
 #endif
