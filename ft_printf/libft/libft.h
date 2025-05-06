@@ -6,17 +6,15 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:29:12 by mehras            #+#    #+#             */
-/*   Updated: 2025/04/23 09:45:22 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:46:20 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
 
 typedef unsigned char	t_uc;
 typedef struct s_list

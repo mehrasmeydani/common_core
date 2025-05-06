@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 17:28:13 by mehras            #+#    #+#              #
-#    Updated: 2025/04/23 10:21:36 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/06 19:46:59 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,10 +47,10 @@ ${NAME}:	${OBJS}
 
 clean:
 			rm -f ${OBJS}
+			rm -f ${OBJS_B}
 
 fclean:		clean
 			rm -f ${NAME}
-			rm -f ${OBJS_B}
 			rm -f libft.so
 			rm -f a.out
 
@@ -58,9 +58,5 @@ re:			fclean all
 
 bonus:			${OBJS} $(OBJS_B)
 				ar rcs $(NAME) $(OBJS) $(OBJS_B)
-
-so:
-	$(GCC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
-	gcc -nostartfiles -shared -o libft.so $(OBJS)
 
 .PHONY:		all clean fclean re
