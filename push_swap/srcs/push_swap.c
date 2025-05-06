@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mehras <mehras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:28:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:30:49 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/06 14:18:40 by mehras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	find_top(t_stack **a)
 		while (++i < tmp->d_down)
 			rr(a, NULL, "rra");
 	else
-		while (++i < tmp->d_up - 1)
+		while (++i < tmp->d_up)
 			r(a, NULL, "ra");
 }
 
@@ -92,5 +92,6 @@ void	push_swap(t_stack **a, t_stack **b, ssize_t size)
 		turn_till_opt(a, b, c);
 		p(a, b, "pa");
 	}
+	set_d(*a, *b);
 	find_top(a);
 }
