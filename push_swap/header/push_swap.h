@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:33 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:35:18 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 11:56:04 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_stack
 	ssize_t			opt;
 	struct s_stack	*next;
 	struct s_stack	*prev;	
+	struct s_stack	*opt_node;
 }	t_stack;
 
 long	ft_atol(const char *nptr);
@@ -85,5 +86,6 @@ ssize_t	min(t_stack *a);
 void	push_swap(t_stack **a, t_stack **b, ssize_t size);
 void	push_b_nonlis(t_stack **a, t_stack **b);
 void	set_d(t_stack *a, t_stack *b);
+ssize_t	is_sorted(t_stack *a);
 
 #endif

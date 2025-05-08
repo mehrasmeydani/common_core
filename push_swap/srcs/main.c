@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 06:32:38 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:56:17 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	main(int argc, char **argv)
 	if (!a)
 		return (1);
 	b = NULL;
-	push_swap(&a, &b, ps.size);
+	if (!is_sorted(a))
+		push_swap(&a, &b, ps.size);
 	ft_stackclear(&a);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:04:10 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 13:41:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 11:45:10 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_stack	*ft_stacknew(t_ps *in, ssize_t i)
 		return (NULL);
 	new->next = NULL;
 	new->prev = NULL;
+	new->opt_node = NULL;
 	new->lis = in->lis[i];
 	new->num = in->idx[i];
 	return (new);
