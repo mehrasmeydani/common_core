@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:28:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 09:06:37 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:30:08 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	push_swap(t_stack **a, t_stack **b, ssize_t size)
 		return(sort_3(a));
 	while ((!is_sorted(*a) && pushed == 0) || size != ft_stacksize(*a))
 	{
-		// if (ft_stacksize(*a) == 3)
-		// 	sort_3(a);
 		set_d(*a, *b);
 		if (pushed == 0)
 		{
