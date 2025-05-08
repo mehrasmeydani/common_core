@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:00:08 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 06:35:43 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/08 07:51:29 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	***ft_splits(ssize_t argc, char **argv)
 	out[argc] = NULL;
 	while (++i < argc)
 	{
+		if (!argv[i][0])
+			return (ft_putendl_fd("Error", 2), ft_free_free(out, i));
 		out[i] = ft_split(argv[i], ' ');
 		if (!out[i] || !out[i][0])
 			return (ft_free_free(out, i));

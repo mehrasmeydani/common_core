@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:21:55 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 06:34:06 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/08 08:31:00 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,26 @@ static bool	valid(char *in)
 	sign = 0;
 	while (in[++i])
 	{
-		if (!ft_isdigit(in[i]) && !(in[i] == '-' || in[i] == '+'))
+		if (!ft_isdigit(in[i]) && !((in[i] == '-' || in[i] == '+') && i == 0))
 			return (0);
 		if (in[i] == '-' || in[i] == '+')
 			sign++;
 		if (sign > 1)
 			return (0);
 	}
+	if (i == sign)
+		return (0);
 	return (1);
+}
+
+static void	mallocs(t_ps *in)
+{
+	in->num = (long *)malloc(sizeof(long) * in->size);
+	in->sorted = (long *)malloc(sizeof(long) * in->size);
+	in->lis = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->idx = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->lis_util = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	in->lis_util2 = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
 }
 
 static void	tol(t_ps *in)
@@ -37,12 +49,7 @@ static void	tol(t_ps *in)
 	ssize_t	j;
 
 	i = -1;
-	in->num = (long *)malloc(sizeof(long) * in->size);
-	in->sorted = (long *)malloc(sizeof(long) * in->size);
-	in->lis = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
-	in->idx = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
-	in->lis_util = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
-	in->lis_util2 = (ssize_t *)malloc(sizeof(ssize_t) * in->size);
+	mallocs(in);
 	if (!in->lis || !in->sorted || !in->num || !in->idx || !in->lis_util
 		|| !in->lis_util2)
 		return (free(in->sorted), free(in->num), free(in->lis), free(in->idx),

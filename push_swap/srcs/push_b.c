@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_b.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:32:13 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:33:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 09:25:39 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	push_b_nonlisr(t_stack **a, t_stack **b)
 	lis_count = 0;
 	while (tmp)
 	{
-		if (tmp->lis)
+		if (tmp->lis == 1)
 			lis_count++;
 		tmp = tmp->next;
 	}

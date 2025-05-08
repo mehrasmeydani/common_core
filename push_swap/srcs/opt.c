@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   opt.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:41:53 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:24:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 08:16:50 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,19 @@ void	set_opt(t_stack *a, t_stack *b)
 	tmp = b;
 	while (b)
 	{
+		if (min != -1 && (b->d_up > min && b->d_down > min))
+		{
+			b = b->next;
+			continue ;
+		}
 		opt = find_opt(a, b);
 		set_moves(b, opt);
 		if (num == -1 || min > b->d_opt)
 		{
 			num = b->num;
 			min = b->d_opt;
+			if (min == 0)
+				break ;
 		}
 		b = b->next;
 	}

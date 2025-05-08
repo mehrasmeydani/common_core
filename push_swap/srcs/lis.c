@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lis.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:00:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/01 12:52:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 09:26:14 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static ssize_t	search_place(ssize_t *lis, ssize_t new, ssize_t size)
 	i = -1;
 	while (lis[++i] != -1 && i < size && lis[i] < new)
 		;
-	if (lis[i] == -1)
-		return (lis[i] = new, i);
 	return (lis[i] = new, i);
 }
 
@@ -79,7 +77,7 @@ static ssize_t	best_lis(t_ps *in)
 	{
 		ft_memset(in->lis, -1, in->size * sizeof(ssize_t));
 		ft_memset(in->lis_util2, -1, in->size * sizeof(ssize_t));
-		tmp = lis(in);
+		tmp = lis(in) + 1;
 		if (tmp > max)
 		{
 			max = tmp;
@@ -97,6 +95,8 @@ void	set_lis(t_ps *in)
 	best = best_lis(in);
 	while (in->lis_util[0] != best)
 		rotate(in->lis_util, in->size);
+	ft_memset(in->lis, -1, in->size * sizeof(ssize_t));
+	ft_memset(in->lis_util2, -1, in->size * sizeof(ssize_t));
 	lis(in);
 	while (in->lis_util[0] != in->idx[0])
 	{
