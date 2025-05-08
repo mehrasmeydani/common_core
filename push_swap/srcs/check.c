@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:21:55 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/06 11:27:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/08 06:34:06 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	tol(t_ps *in)
 	{
 		j = -1;
 		in->num[i] = ft_atol(in->out[i]);
-		while (++j < i)
-			if (in->num[j] == in->num[i] || in->num[i] > 2147483647
+		while (++j <= i)
+			if ((in->num[j] == in->num[i] && i != j) || in->num[i] > 2147483647
 				|| in->num[i] < -2147483648 || !valid(in->out[i]))
 				return (free(in->num), (void)(in->num = NULL),
 						free(in->sorted), ft_putendl_fd("Error", 2));

@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 17:28:13 by mehras            #+#    #+#              #
-#    Updated: 2025/04/23 10:21:36 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/08 05:45:00 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,26 +38,24 @@ CFLAGS		= -Wall -Wextra -Werror
 all:			${NAME}
 
 .c.o:
-			${GCC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
+			@${GCC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			${LIBC} ${NAME} ${OBJS}
-			${LIBR} ${NAME}
+			@${LIBC} ${NAME} ${OBJS}
+			@${LIBR} ${NAME}
 
 
 clean:
-			rm -f ${OBJS}
+			@rm -f ${OBJS}
+			@rm -f ${OBJS_B}
 
 fclean:		clean
-			rm -f ${NAME}
-			rm -f ${OBJS_B}
-			rm -f libft.so
-			rm -f a.out
+			@rm -f ${NAME}
+			
+re:			@fclean all
 
-re:			fclean all
-
-bonus:			${OBJS} $(OBJS_B)
-				ar rcs $(NAME) $(OBJS) $(OBJS_B)
+bonus:		${OBJS} $(OBJS_B)
+			ar rcs $(NAME) $(OBJS) $(OBJS_B)
 
 so:
 	$(GCC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)

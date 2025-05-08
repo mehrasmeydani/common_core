@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bonus_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 15:43:21 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 06:32:38 by megardes         ###   ########.fr       */
+/*   Created: 2025/05/08 05:32:12 by megardes          #+#    #+#             */
+/*   Updated: 2025/05/08 06:12:22 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/push_swap.h"
-
-void	set_d(t_stack *a, t_stack *b)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (a || b)
-	{
-		if (a)
-		{
-			a->d_up = i;
-			a->d_down = ft_stacksize(a) - i;
-			a = a->next;
-		}
-		if (b)
-		{
-			b->d_up = i;
-			b->d_down = ft_stacksize(b) - i;
-			b = b->next;
-		}
-		i++;
-	}
-}
+#include "../header/bonus_bonus.h"
 
 int	main(int argc, char **argv)
 {
@@ -56,7 +33,5 @@ int	main(int argc, char **argv)
 	if (!a)
 		return (1);
 	b = NULL;
-	push_swap(&a, &b, ps.size);
-	ft_stackclear(&a);
-	return (0);
+	checker(&a, &b, ps.size);
 }

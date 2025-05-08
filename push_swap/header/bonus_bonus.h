@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splits.c                                        :+:      :+:    :+:   */
+/*   bonus_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 16:00:08 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 06:35:43 by megardes         ###   ########.fr       */
+/*   Created: 2025/05/08 05:32:34 by megardes          #+#    #+#             */
+/*   Updated: 2025/05/08 05:33:39 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/push_swap.h"
+#ifndef BONUS_BONUS_H
+# define BONUS_BONUS_H
 
-char	***ft_splits(ssize_t argc, char **argv)
-{
-	char	***out;
-	ssize_t	i;
+# include "push_swap.h"
 
-	i = -1;
-	out = (char ***)malloc((argc + 1) * sizeof(char **));
-	if (!out)
-		return (NULL);
-	out[argc] = NULL;
-	while (++i < argc)
-	{
-		out[i] = ft_split(argv[i], ' ');
-		if (!out[i] || !out[i][0])
-			return (ft_free_free(out, i));
-	}
-	return (out);
-}
+#endif
