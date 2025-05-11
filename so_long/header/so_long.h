@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/11 20:04:13 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:59:21 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_map
 	ssize_t c;
 	ssize_t	bytes_read;
 	char	**map;
+	char	**map_copy;
 	char	r[2];
 }	t_map;
 
