@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/11 21:03:13 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/11 21:03:47 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	create_map(t_map *map, char *str)
 	}
 	map->x -= 1;
 	close(fd);
-	flood_fill(map);
+	flood_fill(map, 0, 0);
 }
 
 void	read_map(t_map *map, char *str)
