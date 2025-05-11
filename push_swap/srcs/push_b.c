@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:32:13 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 09:25:39 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/11 18:59:01 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,16 @@ void	push_b_nonlis(t_stack **a, t_stack **b)
 		push_b_nonlisrr(a, b);
 	else
 		push_b_nonlisr(a, b);
+}
+
+void	sort_3(t_stack **a)
+{
+	if (is_sorted(*a))
+		return ;
+	if ((*a)->num == 1 && (*a)->next->num == 2)
+		return (rr(a, NULL, "rra"));
+	if ((*a)->num == 2)
+		return (r(a, NULL, "ra"), sort_3(a));
+	if ((*a)->num == 0 || (*a)->num == 1)
+		return (s(a, NULL, "sa"), sort_3(a));
 }

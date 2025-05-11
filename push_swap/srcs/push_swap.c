@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:28:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 11:57:18 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/11 18:59:30 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,6 @@ static void	find_top(t_stack **a)
 			r(a, NULL, "ra");
 }
 
-void	sort_3(t_stack **a)
-{
-	if (is_sorted(*a))
-		return ;
-	if ((*a)->num == 1 && (*a)->next->num == 2)
-		return (rr(a, NULL, "rra"));
-	if ((*a)->num == 2)
-		return (r(a, NULL, "ra"), sort_3(a));
-	if ((*a)->num == 0 || (*a)->num == 1)
-		return (s(a, NULL, "sa"), sort_3(a));
-}
-
 void	push_swap(t_stack **a, t_stack **b, ssize_t size)
 {
 	ssize_t	pushed;
@@ -91,7 +79,7 @@ void	push_swap(t_stack **a, t_stack **b, ssize_t size)
 	pushed = 0;
 	c = 0;
 	if (size == 3)
-		return(sort_3(a));
+		return (sort_3(a));
 	while (pushed == 0 || size != ft_stacksize(*a))
 	{
 		set_d(*a, *b);

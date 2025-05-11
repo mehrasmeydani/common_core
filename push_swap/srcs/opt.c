@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:41:53 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 11:51:55 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/11 17:23:56 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ static void	set_moves(t_stack *b, t_stack *opt)
 	b->d_opt = min;
 }
 
+static void	set_opt2(t_stack *b, ssize_t *min, ssize_t *num)
+{
+	if (*num == -1 || *min > b->d_opt)
+	{
+		*num = b->num;
+		*min = b->d_opt;
+	}
+}
+
 void	set_opt(t_stack *a, t_stack *b)
 {
 	t_stack	*opt;
@@ -73,13 +82,9 @@ void	set_opt(t_stack *a, t_stack *b)
 	{
 		opt = find_opt(a, b);
 		set_moves(b, opt);
-		if (num == -1 || min > b->d_opt)
-		{
-			num = b->num;
-			min = b->d_opt;
-			if (min == 0)
-				break ;
-		}
+		set_opt2(b, &min, &num);
+		if (min == 0)
+			break ;
 		b = b->next;
 	}
 	while (tmp)
