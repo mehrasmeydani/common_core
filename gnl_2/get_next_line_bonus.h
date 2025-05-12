@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:29:54 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 17:17:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 17:43:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+
+# ifndef FD_SIZE
+#  define FD_SIZE 1024
 # endif
 
 # include <unistd.h>
