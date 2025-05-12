@@ -6,26 +6,11 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 17:39:08 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:47:25 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
-
-void	init_map(t_map *map)
-{
-	map->r[0] = 0;
-	map->r[1] = 0;
-	map->x = 0;
-	map->y = 0;
-	map->player = 0;
-	map->collect = 0;
-	map->exit = 0;
-	map->map = NULL;
-	map->map_copy = NULL;
-	map->bytes_read = -1;
-	map->fd = -1;
-}
 
 void	ft_free(char **in)
 {
@@ -187,16 +172,47 @@ void	read_map(t_map *map, char *str)
 	create_map(map, str);
 }
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	init_window(t_mlx *mlx)
+{
+	mlx->mlx = mlx_init();
+	mlx->mlx_window = mlx_new_window(mlx->mlx, 1920, 1080, "Hello world!");
+	mlx->img->img = mlx_new_image(mlx->mlx, 1920, 1080);
+	mlx->img->addr = mlx_get_data_addr(mlx->img->img, &mlx->img->bits_per_pixel, &mlx->img->line_length, &mlx->img->endian);
+	my_mlx_pixel_put(mlx->img, 5, 5, 0x00FFFF00);
+	my_mlx_pixel_put(mlx->img, 5, 6, 0x00FFFF00);
+	my_mlx_pixel_put(mlx->img, 5, 7, 0x00FFFF00);
+	mlx_put_image_to_window(mlx->mlx, mlx->mlx_window, mlx->img->img, 0, 0);
+	mlx_loop(mlx->mlx);
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	map;
+	t_mlx	mlx;
+	t_data	img;
 
 	if (argc < 2)
 		return (ft_putendl_fd("Map file not found!", 2), 1);
 	if (argc > 2)
 		return (ft_putendl_fd("Too many arguments!", 2), 1);
-	init_map(&map);
+	ft_bzero(&map, sizeof(map));
+	ft_bzero(&mlx, sizeof(mlx));
+	ft_bzero(&img, sizeof(img));
+	map.bytes_read = -1;
+	map.fd = -1;
 	read_map(&map, argv[1]);
+	mlx.map = &map;
+	mlx.img = &img;
+	init_window(&mlx);
+	//run_game();
 	error_and_exit("lol", 1, &map);
 	return (0);
 }

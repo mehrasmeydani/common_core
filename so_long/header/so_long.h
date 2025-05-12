@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 16:17:51 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:11:44 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,19 @@ typedef struct s_map
 	char	r[2];
 }	t_map;
 
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
 typedef struct s_mlx
 {
+	void	*mlx;
+	void	*mlx_window;
+	t_data	*img;
 	t_map	*map;
 }	t_mlx;
 

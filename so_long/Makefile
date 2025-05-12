@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/12 15:35:29 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/12 21:00:04 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ MAKEFLAGS	+= --no-print-directory
 all:		${NAME}
 
 .c.o:
-			@${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME} ./libft/libft.a -g
+			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -g -lmlx -lXext
 
 clean: 
 			@${LIBFT} && make clean
