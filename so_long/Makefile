@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/11 19:03:50 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/12 15:35:29 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRC			= main.c
 SRCS		= ${addprefix ${PRE}, ${SRC}}
 PRE			= ./srcs/
 HEAD		= ./header/
-NAME		= push_swap
+NAME		= so_long
 CFLAGS		= -Wall -Wextra -Werror
 LIBFT		= cd libft
 OBJS		= ${SRCS:.c=.o}
@@ -29,7 +29,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME} ./libft/libft.a
+			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME} ./libft/libft.a -g
 
 clean: 
 			@${LIBFT} && make clean

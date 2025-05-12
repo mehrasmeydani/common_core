@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/11 21:03:47 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:39:08 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,98 +18,172 @@ void	init_map(t_map *map)
 	map->r[1] = 0;
 	map->x = 0;
 	map->y = 0;
-	map->p = 0;
-	map->c = 0;
-	map->e = 0;
+	map->player = 0;
+	map->collect = 0;
+	map->exit = 0;
 	map->map = NULL;
+	map->map_copy = NULL;
 	map->bytes_read = -1;
+	map->fd = -1;
 }
 
-void	error_and_exit(char *error, int fd)
+void	ft_free(char **in)
 {
+	ssize_t i;
+
+	i = -1;
+	while (in && in[++i])
+		free(in[i]);
+	free(in);
+}
+
+void	error_and_exit(char *error, int fd, t_map *map)
+{
+	if (map)
+	{
+		if (map->fd != -1)
+		{
+			close(map->fd);
+			map->fd = -1;
+		}
+		if (map->map)
+		{
+			ft_free(map->map);
+			map->map = NULL;
+		}
+		if (map->map_copy)
+		{
+			ft_free(map->map_copy);
+			map->map_copy = NULL;
+		}
+	}
 	ft_putendl_fd(error, fd);
-}
-
-void	map_error(t_map *map, int fd)
-{
-	if (map->bytes_read == -1)
-		return (close(fd), error_and_exit("ERROR! Cannot read file!", 2));
-	if (map->bytes_read == 0 && map->r[0] != '\n')
-		return (close(fd), error_and_exit("ERROR! No new line at EOF!", 2));
-	if (map->r[0] != 'p' && map->r[0] != 'e' && map->r[0] != 'c'
-		&& map->r[0] != '0' && map->r[0] != '1' && map->r[0] != '\n')	
-		return (close(fd), error_and_exit("ERROR! Invalid character in file!", 2));
-	if (map->r[0] == 'p')
-		map->p++;
-	if (map->r[0] == 'e')
-		map->e++;
-	if (map->r[0] == 'c')
-		map->c++;
-	if (map->p > 1 || map->e > 1)
-		return (close(fd), error_and_exit("ERROR! Too many players or exits in file!", 2));
+	exit(1);
 }
 
 void	flood_fill(t_map *map, ssize_t x, ssize_t y)
 {
 	
+	if (x == -1 || y == -1 || x == map->x || y == map->y || map->map_copy[y][x] == '1')
+		return ;
+	map->map_copy[y][x] = '1';
+	flood_fill(map, x + 1, y);
+	flood_fill(map, x - 1, y);
+	flood_fill(map, x , y + 1);
+	flood_fill(map, x , y - 1);	
+}
+
+void	find_player(t_map *map, ssize_t *y, ssize_t *x)
+{
+	*y = -1;
+	while (++*y < map->y)
+	{
+		*x = -1;
+		while (++*x < map->x)
+			if (map->map[*y][*x] == 'p')
+				return ;
+	}
+}
+
+void	map_check(t_map *map)
+{
+	ssize_t	x;
+	ssize_t y;
+
+	map->i = -1;
+	while (++map->i < map->y - 1)
+		if (map->map[map->i][map->x - 1] != '1' || map->map[map->i][0] != '1')
+			return (error_and_exit("Walls are not place correctly!", 2, map));
+	map->i = -1;
+	while (map->map[map->y - 1][++map->i])
+		if (map->map[map->y - 1][map->i] != '1' && map->map[map->y - 1][map->i] != '\n')
+			return (error_and_exit("Invalid character in last line!", 2, map));
+	find_player(map, &y, &x);
+	flood_fill(map, x, y);
+	y = -1;
+	while (++y < map->y)
+	{
+		x = -1;
+		while (++x < map->x)
+			if (map->map_copy[y][x] != '1')
+				return (error_and_exit("Game cannot be finished!", 2, map));
+			
+	}
 }
 
 void	create_map(t_map *map, char *str)
 {
-	ssize_t	i;
-	int		fd;
-
-	i = -1;
-	fd = open(str, O_RDONLY);
-	if (fd == -1)
-		return (error_and_exit("ERROR! Cannot open file!", 2));
+	map->i = -1;
+	map->fd = open(str, O_RDONLY);
+	if (map->fd == -1)
+		return (error_and_exit("Cannot open file!", 2, map));
 	map->map = (char **)ft_calloc(map->y + 1, sizeof(char *));
-	if (!map->map)
-		return (error_and_exit("ERROR! Malloc fail!", 2));
 	map->map_copy = (char **)ft_calloc(map->y + 1, sizeof(char *));
-	if (!map->map)
-		return (error_and_exit("ERROR! Malloc fail!", 2)); // free
-	while (++i < map->y)
+	if (!map->map_copy || !map->map)
+		return (error_and_exit("Malloc fail!", 2, map));
+	while (++map->i < map->y)
 	{
-		map->map[i] = (char *)ft_calloc(map->x + 1, sizeof(char));
-		if (!map->map[i])
-			return(close(fd), error_and_exit("ERROR! Malloc fail!", 2)); // free
-		map->bytes_read = read(fd, map->map[i], map->x);
+		map->map[map->i] = (char *)ft_calloc(map->x + 1, sizeof(char));
+		if (!map->map[map->i])
+			return(error_and_exit("Malloc fail!", 2, map));
+		map->bytes_read = read(map->fd, map->map[map->i], map->x);
 		if (map->bytes_read == -1)
-			return (close(fd), error_and_exit("ERROR! Cannot read file!", 2)); // free
-		map->map_copy[i] = ft_strdup(map->map);
-		if (!map->map_copy[i])
-			return (close(fd), error_and_exit("ERROR! Malloc fail!", 2)); // free
+			return (error_and_exit("Cannot read file!", 2, map));
+		map->map_copy[map->i] = ft_strdup(map->map[map->i]);
+		if (!map->map_copy[map->i])
+			return (error_and_exit("Malloc fail!", 2, map));
 	}
 	map->x -= 1;
-	close(fd);
-	flood_fill(map, 0, 0);
+	close(map->fd);
+	map_check(map);
+}
+
+void	map_error(t_map *map)
+{
+	if (map->bytes_read == -1)
+		return (error_and_exit("Cannot read file!", 2, map));
+	if (map->bytes_read == 0 && map->r[0] != '\n')
+		return (error_and_exit("No new line at EOF!", 2, map));
+	if (map->r[0] != 'p' && map->r[0] != 'e' && map->r[0] != 'c'
+		&& map->r[0] != '0' && map->r[0] != '1' && map->r[0] != '\n')	
+		return (error_and_exit("Invalid character in file!", 2, map));
+	if (map->y == 0 && (map->r[0] != '1' && map->r[0] != '\n'))
+		return (error_and_exit("Invalid character in first line!", 2, map));
+	if (map->r[0] == 'p')
+		map->player++;
+	if (map->r[0] == 'e')
+		map->exit++;
+	if (map->r[0] == 'c')
+		map->collect++;
+	if (map->player > 1 || map->exit > 1)
+		return (error_and_exit("Too many players or exits in file!", 2, map));
+	if (map->y == 0 && map->r[0] == '\n')
+		map->x_first = map->x + 1;
 }
 
 void	read_map(t_map *map, char *str)
 {
-	int	fd;
-
 	if (!ft_strnstr(str, ".ber", ft_strlen(str)))
-		return (error_and_exit("ERROR! Map file not '.ber'!", 2));
-	fd = open(str, O_RDONLY);
-	if (fd == -1)
-		return (error_and_exit("ERROR! Cannot open file!", 2));
+		return (error_and_exit("Map file not '.ber'!", 2, map));
+	map->fd = open(str, O_RDONLY);
+	if (map->fd == -1)
+		return (error_and_exit("Cannot open file!", 2, map));
 	while (map->bytes_read != 0)
 	{
-		map->bytes_read = read(fd, map->r, 1);
-		map_error(map, fd);
+		map->bytes_read = read(map->fd, map->r, 1);
+		map_error(map);
 		if (map->bytes_read == 0)
 			break ;
 		map->x++;
 		if (map->r[0] == '\n' && ++map->y)
-			if (map->x % map->y != 0)
-				return (close(fd), error_and_exit("ERROR! Map not square!", 2));
+			if (map->x % map->y != 0 || map->x_first != map->x / map->y)
+				return (error_and_exit("Map not square!", 2, map));
 	}
-	close(fd);
-	if (map->c < 1)
-		return (error_and_exit("ERROR! No collectables in file!", 2));
+	close(map->fd);
+	map->fd = -1;
 	map->x = map->x / map->y;
+	if (map->collect < 1 || map->player < 1 || map->exit < 1 || map->y * map->x < 18)
+		return (error_and_exit("No collectables/player/exit in file!", 2, map));
 	create_map(map, str);
 }
 
@@ -118,10 +192,11 @@ int	main(int argc, char **argv)
 	t_map	map;
 
 	if (argc < 2)
-		return (ft_putendl_fd("ERROR! Map file not found!", 2), 1);
+		return (ft_putendl_fd("Map file not found!", 2), 1);
 	if (argc > 2)
-		return (ft_putendl_fd("ERROR! Too many arguments!", 2), 1);
+		return (ft_putendl_fd("Too many arguments!", 2), 1);
 	init_map(&map);
 	read_map(&map, argv[1]);
+	error_and_exit("lol", 1, &map);
 	return (0);
 }
