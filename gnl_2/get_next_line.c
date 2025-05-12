@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 17:46:18 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:27:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*out;
+
+	if (!s || !len)
+		return (NULL);
+	if (start > ft_strlen(s) || len * ft_strlen(s) == 0)
+		return ((char *)ft_calloc(1, sizeof(char)));
+	if (len + start > ft_strlen(s))
+		out = (char *)ft_calloc((ft_strlen(s) - start + 1), sizeof(char));
+	else
+		out = (char *)ft_calloc((len + 1), sizeof(char));
+	if (!out)
+		return (NULL);
+	if (len > ft_strlen(s))
+		ft_strlcat(out, s + start, ft_strlen(s) + 1);
+	else
+		ft_strlcat(out, s + start, len + 1);
+	return (out);
+}
 
 char	*ft_relocat(char *in, char *buff)
 {
@@ -35,24 +56,14 @@ char	*ft_relocat(char *in, char *buff)
 	return (out);
 }
 
-void	left(char *in, char **left)
+void	left(char *in, char left[BUFFER_SIZE + 1])
 {
 	char	*tmp;
 
 	tmp = ft_strchr(in, '\n') + 1;
-	ft_strlcat(*left, tmp, ft_strlen(tmp) + 1);
+	left[0] = 0;
+	ft_strlcat(left, tmp, ft_strlen(tmp) + 1);
 	free(in);
-}
-
-char	*clean(char *in)
-{
-	char	*out;
-
-	out = (char *)ft_calloc(ft_strchr(in, '\n') - in + 2, 1);
-	if (!out)
-		return (NULL);
-	ft_strlcat(out, in, ft_strchr(in, '\n') - in + 2);
-	return (out);
 }
 
 char	*readfile(int fd, char *red)
@@ -62,21 +73,21 @@ char	*readfile(int fd, char *red)
 
 	buff = (char *)ft_calloc(BUFFER_SIZE + 1, 1);
 	if (!buff)
-	return (free(red), red = NULL);
+		return (free(red), NULL);
 	while (!red || !ft_strchr(red, '\n'))
 	{
 		r = read(fd, buff, BUFFER_SIZE);
 		if (r == -1)
-			return (free(buff), free(red), red = NULL);
+			return (free(red), free(buff), NULL);
 		if (r == 0)
 			break ;
 		buff[r] = 0;
 		red = ft_relocat(red, buff);
 		if (!red)
-			return (free(buff), red = NULL);
+			return (free(buff), NULL);
 	}
 	free(buff);
-	return(red);
+	return (red);
 }
 
 char	*get_next_line(int fd)
@@ -85,19 +96,20 @@ char	*get_next_line(int fd)
 	char		*out;
 	char		*tmp;
 
-	tmp = &red[0];
+	tmp = ft_substr(red, 0, ft_strlen(red));
+	out = NULL;
 	if (fd < 0)
 		return (NULL);
 	tmp = readfile(fd, tmp);
 	if (!tmp)
-		return (NULL);
-	if (ft_strchr(tmp, '\n') && *(ft_strchr(tmp, '\n') + 1))
+		return (red[0] = 0, NULL);
+	if (ft_strchr(tmp, '\n'))
 	{
-		out = clean(tmp);
+		out = ft_substr(tmp, 0, ft_strchr(tmp, '\n') - tmp + 1);
 		if (!out)
-			return (free(tmp), NULL);
-		left(tmp, &red);
+			return (red[0] = 0, free(tmp), NULL);
+		left(tmp, red);
 		return (out);
 	}
-	return (out);
+	return (red[0] = 0, out = tmp, out);
 }
