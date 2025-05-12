@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 18:39:59 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:41:40 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -92,24 +92,24 @@ char	*readfile(int fd, char *red)
 
 char	*get_next_line(int fd)
 {
-	static char	red[BUFFER_SIZE + 1] = {};
+	static char	red[FD_SIZE][BUFFER_SIZE + 1] = {};
 	char		*out;
 	char		*tmp;
 
-	tmp = ft_substr(red, 0, ft_strlen(red));
+	tmp = ft_substr(red[fd], 0, ft_strlen(red[fd]));
 	out = NULL;
 	if (fd < 0)
 		return (NULL);
 	tmp = readfile(fd, tmp);
 	if (!tmp)
-		return (red[0] = 0, NULL);
+		return (red[fd][0] = 0, NULL);
 	if (ft_strchr(tmp, '\n'))
 	{
 		out = ft_substr(tmp, 0, ft_strchr(tmp, '\n') - tmp + 1);
 		if (!out)
-			return (red[0] = 0, free(tmp), NULL);
+			return (red[fd][0] = 0, free(tmp), NULL);
 		left(tmp, red);
 		return (out);
 	}
-	return (red[0] = 0, out = tmp, out);
+	return (red[fd][0] = 0, out = tmp, out);
 }
