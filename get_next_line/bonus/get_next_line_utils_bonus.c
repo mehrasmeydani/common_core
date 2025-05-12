@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 16:15:16 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/12 18:41:07 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:20:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
