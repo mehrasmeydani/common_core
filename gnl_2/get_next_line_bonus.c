@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:31:02 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 17:13:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 18:12:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*readfile(int fd, char *red)
 
 char	*get_next_line(int fd)
 {
-	static char	red[1024][BUFFER_SIZE + 1] = {};
+	static char	red[FD_SIZE][BUFFER_SIZE + 1] = {};
 	char		*out;
 	char		*tmp;
 
