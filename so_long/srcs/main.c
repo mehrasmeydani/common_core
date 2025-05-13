@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 21:35:50 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:55:40 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	flood_fill(t_map *map, ssize_t x, ssize_t y)
 	if (x == -1 || y == -1 || x == map->x || y == map->y
 		|| map->map_copy[y][x] == '1')
 		return ;
+	if (map->map_copy[y][x] == 'E')
+		return ((void)(map->map_copy[y][x] = '1'));
 	map->map_copy[y][x] = '1';
 	flood_fill(map, x + 1, y);
 	flood_fill(map, x - 1, y);
@@ -106,7 +108,7 @@ void	flood_worked(t_map *map)
 		x = -1;
 		while (++x < map->x)
 		{
-			if (map->map_copy[y][x] != '1')
+			if (map->map_copy[y][x] != '1' && map->map_copy[y][x] != '0')
 				error_and_exit("Game cannot be finished!", 2, map);
 			else
 				map->map_copy[y][x] = map->map[y][x];
@@ -254,7 +256,7 @@ void	move(t_mlx *mlx, ssize_t y, ssize_t x)
 
 	map = mlx->map;
 	if ((map->map[map->p[Y] + y][map->p[X] + x] == '0'
-		|| map->map[map->p[Y] + y][map->p[X] + x] == 'C') && puts("what"))
+		|| map->map[map->p[Y] + y][map->p[X] + x] == 'C'))
 	{
 		if (map->map[map->p[Y] + y][map->p[X] + x] == 'C')
 			map->collect--;
