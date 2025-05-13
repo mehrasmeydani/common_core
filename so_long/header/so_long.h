@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 19:41:03 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:13:36 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <X11/keysym.h>
 
 # ifndef XPM_SIZE
 #  define XPM_SIZE 32

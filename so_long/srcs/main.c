@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 19:59:50 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:35:50 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,69 @@ int	exit_mlx(t_mlx *mlx)
 	return (1);
 }
 
-int	move(int keycode, t_mlx *mlx)
+void	my_put_img(t_mlx *mlx, t_map *map, ssize_t x, ssize_t y)
 {
-	printf("%d\n", keycode);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->empty, 38, 0);
-	(void)mlx;
+	if (map->map[y][x] == 'P')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->player,
+				x * XPM_SIZE, y * XPM_SIZE);
+	if (map->map[y][x] == 'E')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->exit,
+				x * XPM_SIZE, y * XPM_SIZE);
+	if (map->map[y][x] == 'C')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->collect,
+				x * XPM_SIZE, y * XPM_SIZE);
+	if (map->map[y][x] == '0')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->empty,
+				x * XPM_SIZE, y * XPM_SIZE);
+	if (map->map[y][x] == '1')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->wall,
+				x * XPM_SIZE, y * XPM_SIZE);
+}
+
+void	set_window(t_mlx *mlx, t_map *map)
+{
+	ssize_t y;
+	ssize_t	x;
+
+	y = -1;
+	while (++y < map->y)
+	{
+		x = -1;
+		while (++x < map->x)
+			my_put_img(mlx, map, x, y);
+	}
+}
+
+void	move(t_mlx *mlx, ssize_t y, ssize_t x)
+{
+	t_map	*map;
+
+	map = mlx->map;
+	if ((map->map[map->p[Y] + y][map->p[X] + x] == '0'
+		|| map->map[map->p[Y] + y][map->p[X] + x] == 'C') && puts("what"))
+	{
+		if (map->map[map->p[Y] + y][map->p[X] + x] == 'C')
+			map->collect--;
+		map->map[map->p[Y]][map->p[X]] = '0';
+		map->p[Y] += y;
+		map->p[X] += x;
+		map->map[map->p[Y]][map->p[X]] = 'P';
+	}
+	set_window(mlx, mlx->map);
+}
+
+int	key(int keycode, t_mlx *mlx)
+{
+	if (keycode == XK_Escape)
+		error_and_exit_mlx("Premature game endation?", 2, mlx);
+	if (keycode == XK_w || keycode == XK_W)
+		move(mlx, -1, 0);
+	if ((keycode == XK_A || keycode == XK_a))
+		move(mlx, 0, -1);
+	if (keycode == XK_S || keycode == XK_s)
+		move(mlx, 1, 0);
+	if (keycode == XK_d || keycode == XK_D)
+		move(mlx, 0, 1);
 	return (1);
 }
 
@@ -247,37 +305,10 @@ void	init_img(t_mlx *mlx, t_img *img, int img_width, int img_height)
 		error_and_exit_mlx("XPM file's size/name/permissions are bad!", 2, mlx);
 }
 
-void	my_put_img(t_mlx *mlx, t_map *map, ssize_t x, ssize_t y)
+void	hook_all(t_mlx *mlx)
 {
-	if (map->map[y][x] == 'P')
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->player,
-				y * XPM_SIZE, x * XPM_SIZE);
-	if (map->map[y][x] == 'E')
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->exit,
-				y * XPM_SIZE, x * XPM_SIZE);
-	if (map->map[y][x] == 'C')
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->collect,
-				y * XPM_SIZE, x * XPM_SIZE);
-	if (map->map[y][x] == '0')
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->empty,
-				y * XPM_SIZE, x * XPM_SIZE);
-	if (map->map[y][x] == '1')
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->wall,
-				y * XPM_SIZE, x * XPM_SIZE);
-}
-
-void	set_window(t_mlx *mlx, t_map *map)
-{
-	ssize_t y;
-	ssize_t	x;
-
-	y = -1;
-	while (++y < map->y)
-	{
-		x = -1;
-		while (++x < map->x)
-			my_put_img(mlx, map, x, y);
-	}
+	mlx_hook(mlx->win, 17, 0, exit_mlx, mlx);
+	mlx_hook(mlx->win, 2, (1L<<0), key, mlx);
 }
 
 void	init_window(t_mlx *mlx)
@@ -292,8 +323,7 @@ void	init_window(t_mlx *mlx)
 	init_img(mlx, mlx->img, 0, 0);
 	set_window(mlx, mlx->map);
 	//all hooks
-	mlx_hook(mlx->win, 17, 0, exit_mlx, mlx);
-	mlx_hook(mlx->win, 2, (1L<<0), move, mlx);
+	hook_all(mlx);
 	mlx_loop(mlx->mlx);
 }
 
