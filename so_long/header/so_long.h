@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 21:13:36 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 22:29:44 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_map
 	ssize_t	x_first;
 	ssize_t	player;
 	ssize_t	exit;
-	ssize_t collect;
+	ssize_t	collect;
 	ssize_t	bytes_read;
 	ssize_t	i;
 	ssize_t	e[2];
@@ -50,13 +50,14 @@ typedef struct s_map
 	char	r[2];
 }	t_map;
 
-typedef struct	s_img {
+typedef struct s_img
+{
 	void	*player;
 	void	*collect;
 	void	*empty;
 	void	*wall;
 	void	*exit;
-}				t_img;
+}	t_img;
 
 typedef struct s_mlx
 {
@@ -65,7 +66,5 @@ typedef struct s_mlx
 	t_img	*img;
 	t_map	*map;
 }	t_mlx;
-
-
 
 #endif
