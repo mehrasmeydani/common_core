@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/12 21:11:44 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:07:24 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@
 # include <stdio.h>
 # include <fcntl.h>
 
+# ifndef XPM_SIZE
+#  define XPM_SIZE 38
+# endif
+
+# ifndef X
+#  define X 1
+# endif
+
+# ifndef Y
+#  define Y 0
+# endif
+
 typedef struct s_map
 {
 	ssize_t	x;
@@ -29,25 +41,27 @@ typedef struct s_map
 	ssize_t collect;
 	ssize_t	bytes_read;
 	ssize_t	i;
+	ssize_t	e[2];
+	ssize_t	p[2];
 	int		fd;
 	char	**map;
 	char	**map_copy;
 	char	r[2];
 }	t_map;
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+typedef struct	s_img {
+	void	*player;
+	void	*collect;
+	void	*empty;
+	void	*wall;
+	void	*exit;
+}				t_img;
 
 typedef struct s_mlx
 {
 	void	*mlx;
-	void	*mlx_window;
-	t_data	*img;
+	void	*win;
+	t_img	*img;
 	t_map	*map;
 }	t_mlx;
 
