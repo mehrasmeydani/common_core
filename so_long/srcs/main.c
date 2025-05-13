@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 19:27:56 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:59:50 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,6 @@ void	init_window(t_mlx *mlx)
 		error_and_exit_mlx("WIN was not initiated", 2, mlx);
 	init_img(mlx, mlx->img, 0, 0);
 	set_window(mlx, mlx->map);
-	//mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->player, 0, 0);
 	//all hooks
 	mlx_hook(mlx->win, 17, 0, exit_mlx, mlx);
 	mlx_hook(mlx->win, 2, (1L<<0), move, mlx);
