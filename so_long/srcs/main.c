@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 21:55:40 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/13 22:28:11 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_free(char **in)
 {
-	ssize_t i;
+	ssize_t	i;
 
 	i = -1;
 	while (in && in[++i])
@@ -72,7 +72,6 @@ void	error_and_exit_mlx(char *error, int fd, t_mlx *mlx)
 
 void	flood_fill(t_map *map, ssize_t x, ssize_t y)
 {
-	
 	if (x == -1 || y == -1 || x == map->x || y == map->y
 		|| map->map_copy[y][x] == '1')
 		return ;
@@ -81,8 +80,8 @@ void	flood_fill(t_map *map, ssize_t x, ssize_t y)
 	map->map_copy[y][x] = '1';
 	flood_fill(map, x + 1, y);
 	flood_fill(map, x - 1, y);
-	flood_fill(map, x , y + 1);
-	flood_fill(map, x , y - 1);	
+	flood_fill(map, x, y + 1);
+	flood_fill(map, x, y - 1);
 }
 
 void	find_player(t_map *map, ssize_t *y, ssize_t *x, char c)
@@ -100,7 +99,7 @@ void	find_player(t_map *map, ssize_t *y, ssize_t *x, char c)
 void	flood_worked(t_map *map)
 {
 	ssize_t	x;
-	ssize_t y;
+	ssize_t	y;
 
 	y = -1;
 	while (++y < map->y)
@@ -167,7 +166,7 @@ void	map_error(t_map *map)
 	if (map->bytes_read == 0 && map->r[0] != '\n')
 		error_and_exit("No new line at EOF!", 2, map);
 	if (map->r[0] != 'P' && map->r[0] != 'E' && map->r[0] != 'C'
-		&& map->r[0] != '0' && map->r[0] != '1' && map->r[0] != '\n')	
+		&& map->r[0] != '0' && map->r[0] != '1' && map->r[0] != '\n')
 		error_and_exit("Invalid character in file!", 2, map);
 	if (map->y == 0 && (map->r[0] != '1' && map->r[0] != '\n'))
 		error_and_exit("Invalid character in first line!", 2, map);
@@ -208,7 +207,6 @@ void	read_map(t_map *map, char *str)
 		|| map->exit < 1 || map->y * map->x < 18)
 		error_and_exit("No collectables/player/exit in file!", 2, map);
 	create_map(map, str);
-	
 }
 
 int	exit_mlx(t_mlx *mlx)
@@ -221,24 +219,24 @@ void	my_put_img(t_mlx *mlx, t_map *map, ssize_t x, ssize_t y)
 {
 	if (map->map[y][x] == 'P')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->player,
-				x * XPM_SIZE, y * XPM_SIZE);
+			x * XPM_SIZE, y * XPM_SIZE);
 	if (map->map[y][x] == 'E')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->exit,
-				x * XPM_SIZE, y * XPM_SIZE);
+			x * XPM_SIZE, y * XPM_SIZE);
 	if (map->map[y][x] == 'C')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->collect,
-				x * XPM_SIZE, y * XPM_SIZE);
+			x * XPM_SIZE, y * XPM_SIZE);
 	if (map->map[y][x] == '0')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->empty,
-				x * XPM_SIZE, y * XPM_SIZE);
+			x * XPM_SIZE, y * XPM_SIZE);
 	if (map->map[y][x] == '1')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->wall,
-				x * XPM_SIZE, y * XPM_SIZE);
+			x * XPM_SIZE, y * XPM_SIZE);
 }
 
 void	set_window(t_mlx *mlx, t_map *map)
 {
-	ssize_t y;
+	ssize_t	y;
 	ssize_t	x;
 
 	y = -1;
@@ -255,16 +253,20 @@ void	move(t_mlx *mlx, ssize_t y, ssize_t x)
 	t_map	*map;
 
 	map = mlx->map;
-	if ((map->map[map->p[Y] + y][map->p[X] + x] == '0'
-		|| map->map[map->p[Y] + y][map->p[X] + x] == 'C'))
+	if (map->map[map->p[Y] + y][map->p[X] + x] == 'E' && map->collect == 0)
+		error_and_exit_mlx("Come back soon", 1, mlx);
+	if (map->map[map->p[Y] + y][map->p[X] + x] == '0'
+		|| map->map[map->p[Y] + y][map->p[X] + x] == 'C')
 	{
 		if (map->map[map->p[Y] + y][map->p[X] + x] == 'C')
-			map->collect--;
+			map->collect--; //open_door
 		map->map[map->p[Y]][map->p[X]] = '0';
 		map->p[Y] += y;
 		map->p[X] += x;
 		map->map[map->p[Y]][map->p[X]] = 'P';
 	}
+	//change direction
+	//change steps
 	set_window(mlx, mlx->map);
 }
 
@@ -310,7 +312,7 @@ void	init_img(t_mlx *mlx, t_img *img, int img_width, int img_height)
 void	hook_all(t_mlx *mlx)
 {
 	mlx_hook(mlx->win, 17, 0, exit_mlx, mlx);
-	mlx_hook(mlx->win, 2, (1L<<0), key, mlx);
+	mlx_hook(mlx->win, 2, (1L << 0), key, mlx);
 }
 
 void	init_window(t_mlx *mlx)
@@ -324,7 +326,6 @@ void	init_window(t_mlx *mlx)
 		error_and_exit_mlx("WIN was not initiated", 2, mlx);
 	init_img(mlx, mlx->img, 0, 0);
 	set_window(mlx, mlx->map);
-	//all hooks
 	hook_all(mlx);
 	mlx_loop(mlx->mlx);
 }
@@ -348,7 +349,6 @@ int	main(int argc, char **argv)
 	mlx.map = &map;
 	mlx.img = &img;
 	init_window(&mlx);
-	//run_game();
 	error_and_exit("lol", 1, &map);
 	return (0);
 }
