@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/13 14:53:03 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/18 15:14:24 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -lmlx -lXext -g
+			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -lmlx -lXext
 
 clean: 
 			@${LIBFT} && make clean
