@@ -6,7 +6,7 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/18 16:01:32 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/18 18:16:22 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,11 @@ ${NAME}:	${OBJS}
 
 clean: 
 			@${LIBFT} && make clean
-			${RM} ${OBJS}
+			${RM} ${OBJS} ${TEST_O}
 
 fclean: 	clean
 			@(${LIBFT} && make fclean)
-			${RM} ${NAME}
+			${RM} ${NAME} ${NAME_TEST}
 
 test:		${TEST_O}
 			@(${LIBFT} && make all)
