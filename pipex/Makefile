@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/18 18:16:22 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/21 11:25:08 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ fclean: 	clean
 
 test:		${TEST_O}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} ${TEST_O} -I ${HEAD} -o ${NAME_TEST} ./libft/libft.a
+			cc ${CFLAGS} ${TEST_O} -I ${HEAD} -o ${NAME_TEST} ./libft/libft.a -g
 
 re:			fclean all
 			
