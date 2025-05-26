@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:56:42 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/21 11:31:34 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/22 13:23:00 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,20 @@ t_pipex	*ft_pipnew(void *content)
 	return (out);
 }
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	pid_t	pid;
 	//pid_t	pid2;
 	int		status;
-	char	*env[] = {NULL};
-	char	*av[] = {"/usr/bin/ls", "-l", "-a", NULL};	
+	int		fd = open("test.c", O_RDONLY);
+	int		fd2 = open("lol.txt", 00777,  O_RDWR);
+	char	*av[] = {"/bin/cat",  NULL};	
 	char	*av2[] = {"/bin/grep", "srcs", NULL};
 	char	*av3[] = {"/bin/awk", "{print $1, $2, $3}", NULL};
 	t_pipex	*test;
 	t_pipex	*tmp;
+	(void)argc;
+	(void)argv;
 
 	test = ft_pipnew(av);
 	test->next = ft_pipnew(av2);
@@ -69,8 +72,12 @@ int main(void)
 				dup2(test->prev->fd[0], 0);
 				close(test->prev->fd[0]);
 			}
+			else
+				dup2(fd, 0);
 			if (test->next)
 				dup2(test->fd[1], 1);
+			else
+				dup2(fd2, 1);
 			close(test->fd[0]);
 			close(test->fd[1]);
 			execve(test->argv[0], test->argv, env);
@@ -80,8 +87,8 @@ int main(void)
 		else
 		{
 			waitpid(pid, &status, 0);
-			if (status != 0)
-				error_n_exit(2, "", &tmp);
+			// if (status != 0)
+			// 	error_n_exit(2, "", &tmp);
 			if (test->prev)
 				close(test->prev->fd[0]);
 			close(test->fd[1]);

@@ -6,29 +6,40 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:15:05 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/18 15:53:53 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:52:23 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/pipex.h"
 
-int	main(int argc, char **argv)
+char	**set_env(void)
 {
-	int		tmp_fd;
-	pid_t	pid;
+	char **out;
 
-	tmp_fd = open("tmp.txt", O_CREAT, O_RDWR);
-	pid = fork();
-	if (pid < 0)
-		return (close(tmp_fd), ft_putendl_fd("what", 2), 1);
-	if (pid == 0)
-	{
-		if (dup2(tmp_fd, STDOUT_FILENO) != -1)
-			execve("ls", NULL, NULL);
-	}
-	else
-	{
-		wait(NULL);
-		
-	}
+	out = ft_calloc(2, sizeof(char *));
+	if (!out)
+		return (NULL);
+	out[0] = ft_strdup("PATH=.");
+	if (!out)
+		return (free(out), NULL);
+	return (out);
+}
+
+t_pipex	*parse(int argc, char **argv)
+{
+	
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_pipex	*pipe;
+	ssize_t	i;
+
+	if (argc < 5)
+		return (ft_putstr_fd("invalid input", 2), 1);
+	i = -1;
+	if (!env[0])
+		env = set_env();
+	pipe = parse(argc, argv);
+	pipex(pipe);
 }
