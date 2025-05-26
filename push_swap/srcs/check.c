@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:21:55 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 08:31:00 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:27:34 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ static void	tol(t_ps *in)
 			if ((in->num[j] == in->num[i] && i != j) || in->num[i] > 2147483647
 				|| in->num[i] < -2147483648 || !valid(in->out[i]))
 				return (free(in->num), (void)(in->num = NULL),
-						free(in->sorted), ft_putendl_fd("Error", 2));
+						free(in->sorted), free(in->idx), free(in->lis),
+						free(in->lis_util), free(in->lis_util2),
+						ft_putendl_fd("Error", 2));
 		in->sorted[i] = in->num[i];
 	}
 }
