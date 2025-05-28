@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/18 15:14:24 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/28 22:11:28 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ MAKEFLAGS	+= --no-print-directory
 all:		${NAME}
 
 .c.o:
-			${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o} ./minilibx-linux/libmlx.a
 
 ${NAME}:	${OBJS}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -lmlx -lXext
+			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a  ./minilibx-linux/libmlx.a -L /usr/X11R6/lib -lX11 -lm -lXext 
 
 clean: 
 			@${LIBFT} && make clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/13 22:29:44 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:00:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # include "../libft/libft.h"
-# include <mlx.h>
+# include "../minilibx-linux/mlx.h"
 # include <string.h>
 # include <stdio.h>
 # include <fcntl.h>
