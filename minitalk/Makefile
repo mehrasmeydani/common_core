@@ -6,17 +6,17 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/26 13:11:03 by megardes         ###   ########.fr        #
+#    Updated: 2025/05/30 09:54:40 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_S			= server
-SRC_S			= main.c 
+SRC_S			= server.c 
 SRCS_S			= ${addprefix ${PRE_S}, ${SRC_S}}
 PRE_S			= ./srcs_server/
 OBJS_S			= ${SRCS_S:.c=.o}
 NAME_C			= client
-SRC_C			= main.c 
+SRC_C			= client.c 
 SRCS_C			= ${addprefix ${PRE_C}, ${SRC_C}}
 PRE_C			= ./srcs_client/
 OBJS_C			= ${SRCS_C:.c=.o}
