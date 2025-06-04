@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:22:19 by megardes          #+#    #+#             */
-/*   Updated: 2025/06/04 14:23:57 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:34:10 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	set_window(t_mlx *mlx, t_map *map, char *num)
 {
 	ssize_t	y;
 	ssize_t	x;
-	
 
 	y = -1;
 	while (++y < map->y)
