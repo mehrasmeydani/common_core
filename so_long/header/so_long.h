@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 16:23:27 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:41:06 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,10 @@ void	flood_fill(t_map *map, ssize_t x, ssize_t y);
 int		exit_mlx(t_mlx *mlx);
 void	error_and_exit_mlx(char *error, int fd, t_mlx *mlx);
 void	error_and_exit(char *error, int fd, t_map *map);
+int		key(int keycode, t_mlx *mlx);
+void	init_window(t_mlx *mlx);
+void	set_window(t_mlx *mlx, t_map *map, char *num);
+void	change_dir(t_img *img, ssize_t y, ssize_t x);
+void	move(t_mlx *mlx, ssize_t y, ssize_t x);
 
 #endif

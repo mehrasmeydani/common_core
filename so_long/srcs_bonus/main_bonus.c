@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/06/04 13:40:06 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:24:57 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	move(t_mlx *mlx, ssize_t y, ssize_t x)
 	static ssize_t	move = 0;
 
 	map = mlx->map;
+	if (map->map[map->p[Y] + y][map->p[X] + x] == 'O')
+		error_and_exit_mlx("YOU DIED", 1, mlx);
 	if (map->map[map->p[Y] + y][map->p[X] + x] == 'E' && map->collect == 0)
 		error_and_exit_mlx("Come back soon", 1, mlx);
 	collect(mlx, y, x, &move);

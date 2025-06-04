@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx.c                                              :+:      :+:    :+:   */
+/*   mlx_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:22:19 by megardes          #+#    #+#             */
-/*   Updated: 2025/06/04 13:36:53 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:23:57 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	my_put_img(t_mlx *mlx, t_map *map, ssize_t x, ssize_t y)
 			x * XPM_SIZE, y * XPM_SIZE);
 	if (map->map[y][x] == '1')
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->wall,
+			x * XPM_SIZE, y * XPM_SIZE);
+	if (map->map[y][x] == 'O')
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->enemy,
 			x * XPM_SIZE, y * XPM_SIZE);
 }
 
