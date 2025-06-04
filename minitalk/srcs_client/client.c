@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:05:26 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 11:19:08 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/30 12:32:10 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	send_message(char *in, pid_t pid)
 			else
 				kill(pid, SIGUSR1);
 			while (g_pending != 0 && g_pending++ < 3)
-				usleep(0);
-			if (g_pending == 3)
+				usleep(1000);
+			if (g_pending == 4)
 				return (ft_putendl_fd("No respond from server in time", 2));
 			c = c >> 1;
 		}

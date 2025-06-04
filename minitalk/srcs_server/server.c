@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:05:24 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 11:22:24 by megardes         ###   ########.fr       */
+/*   Updated: 2025/05/30 12:27:04 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ ssize_t	pow_2(ssize_t i)
 	return (2 * pow_2(i - 1));
 }
 
-char	*recalloc_quad(char	*in, ssize_t pow)
+char	*recalloc_quad(char	*in, ssize_t pow, ssize_t *alloc)
 {
 	char	*out;
 
+	*alloc = pow_2(pow);
 	if (!in)
-		return ((char *)ft_calloc(pow_2(pow), 1));
-	out = (char	*)ft_calloc(pow_2(pow), 1);
+		return ((char *)ft_calloc(*alloc, 1));
+	out = (char	*)ft_calloc(*alloc, 1);
 	if (!out)
 		return (free(in), NULL);
 	ft_strlcpy(out, in, ft_strlen(in) + 1);
@@ -39,11 +40,12 @@ void	get_bit(int signum, siginfo_t *new, void *old)
 	static ssize_t	bits = -1;
 	static ssize_t	calls = 0;
 	static ssize_t	pow = 1;
+	static ssize_t	alloc = 2;
 
 	bits++;
 	(void)old;
-	if (calls == 0 || calls + 2 >= pow_2(pow))
-		out = recalloc_quad(out, ++pow);
+	if (calls == 0 || calls + 2 >= alloc)
+		out = recalloc_quad(out, ++pow, &alloc);
 	if (!out)
 		return (ft_putendl_fd("malloc failed!", 2), exit(1));
 	out[calls] += (signum == SIGUSR2) * (1 << bits);
@@ -51,7 +53,7 @@ void	get_bit(int signum, siginfo_t *new, void *old)
 	{
 		bits = -1;
 		if (!out[calls])
-			return (ft_putstr_fd(out, 1), free(out), out = NULL,
+			return (ft_putstr_fd(out, 1), free(out), out = NULL, alloc = 2,
 					calls = 0, pow = 1, (void)kill(new->si_pid, SIGUSR1));
 		else
 			kill(new->si_pid, SIGUSR2);
