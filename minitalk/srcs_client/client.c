@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:05:26 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 12:32:10 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:02:02 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_respond(int signum, siginfo_t *new, void *old)
 	g_pending = 0;
 	(void)old;
 	(void)new;
-	if (signum == SIGUSR1)
+	if (signum == SIGUSR2)
 		return (ft_putendl_fd("Server recieved message succesfully", 1));
 }
 
@@ -43,9 +43,9 @@ void	send_message(char *in, pid_t pid)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			while (g_pending != 0 && g_pending++ < 3)
-				usleep(1000);
-			if (g_pending == 4)
+			while (g_pending != 0 && g_pending++ < 5)
+				sleep(1);
+			if (g_pending == 6)
 				return (ft_putendl_fd("No respond from server in time", 2));
 			c = c >> 1;
 		}

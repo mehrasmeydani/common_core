@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:05:24 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 12:27:04 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:03:04 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*recalloc_quad(char	*in, ssize_t pow, ssize_t *alloc)
 	*alloc = pow_2(pow);
 	if (!in)
 		return ((char *)ft_calloc(*alloc, 1));
-	out = (char	*)ft_calloc(*alloc, 1);
+	out = (char *)ft_calloc(*alloc, 1);
 	if (!out)
 		return (free(in), NULL);
 	ft_strlcpy(out, in, ft_strlen(in) + 1);
@@ -36,7 +36,7 @@ char	*recalloc_quad(char	*in, ssize_t pow, ssize_t *alloc)
 
 void	get_bit(int signum, siginfo_t *new, void *old)
 {
-	static char 	*out = NULL;
+	static char		*out = NULL;
 	static ssize_t	bits = -1;
 	static ssize_t	calls = 0;
 	static ssize_t	pow = 1;
@@ -54,11 +54,10 @@ void	get_bit(int signum, siginfo_t *new, void *old)
 		bits = -1;
 		if (!out[calls])
 			return (ft_putstr_fd(out, 1), free(out), out = NULL, alloc = 2,
-					calls = 0, pow = 1, (void)kill(new->si_pid, SIGUSR1));
-		else
-			kill(new->si_pid, SIGUSR2);
+				calls = 0, pow = 1, (void)kill(new->si_pid, SIGUSR2));
 		calls++;
 	}
+	kill(new->si_pid, SIGUSR1);
 }
 
 int	main(void)
