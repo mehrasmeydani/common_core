@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/05/28 22:22:41 by codespace        ###   ########.fr        #
+#    Updated: 2025/05/30 16:21:06 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC			= main.c 
+SRC			= main.c img.c map2.c map.c free.c
 SRCS		= ${addprefix ${PRE}, ${SRC}}
 PRE			= ./srcs/
 HEAD		= ./header/
@@ -29,7 +29,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			@(${LIBFT} && make all)
-			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -lX11 -lm -lXext 
+			cc ${CFLAGS} ${OBJS} -I ${HEAD} -o ${NAME} ./libft/libft.a -lX11 -lm -lXext -lmlx 
 
 clean: 
 			@${LIBFT} && make clean

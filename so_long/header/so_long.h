@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:41 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/28 22:00:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/30 16:23:27 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 # define SO_LONG_H
 
 # include "../libft/libft.h"
-# include "../minilibx-linux/mlx.h"
+# include <mlx.h>
 # include <string.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <X11/keysym.h>
 
@@ -52,11 +51,18 @@ typedef struct s_map
 
 typedef struct s_img
 {
-	void	*player;
+	void	*player_up;
+	void	*player_down;
+	void	*player_right;
+	void	*player_left;
+	void	*player_status;
+	void	*enemy;
+	void	*o_exit;
 	void	*collect;
 	void	*empty;
 	void	*wall;
 	void	*exit;
+	void	*exit_status;
 }	t_img;
 
 typedef struct s_mlx
@@ -66,5 +72,14 @@ typedef struct s_mlx
 	t_img	*img;
 	t_map	*map;
 }	t_mlx;
+
+void	init_img(t_mlx *mlx, t_img *img, int img_width, int img_height);
+void	read_map(t_map *map, char *str);
+void	flood_worked(t_map *map);
+void	find_player(t_map *map, ssize_t *y, ssize_t *x, char c);
+void	flood_fill(t_map *map, ssize_t x, ssize_t y);
+int		exit_mlx(t_mlx *mlx);
+void	error_and_exit_mlx(char *error, int fd, t_mlx *mlx);
+void	error_and_exit(char *error, int fd, t_map *map);
 
 #endif
