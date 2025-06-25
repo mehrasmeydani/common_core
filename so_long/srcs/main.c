@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 19:04:18 by megardes          #+#    #+#             */
-/*   Updated: 2025/06/04 13:40:06 by megardes         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:31:57 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	move(t_mlx *mlx, ssize_t y, ssize_t x)
 	num = ft_itoa(move);
 	if (!num)
 		error_and_exit_mlx("malloc failed", 2, mlx);
+	ft_putstr_fd("move count: ", 1);
+	ft_putendl_fd(num, 1);
 	set_window(mlx, mlx->map, num);
 	free(num);
 }
