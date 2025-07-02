@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:14:54 by megardes          #+#    #+#             */
-/*   Updated: 2025/05/30 16:16:44 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:18:44 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	error_and_exit(char *error, int fd, t_map *map)
 	if (fd == 2)
 		ft_putendl_fd("ERROR", fd);
 	ft_putendl_fd(error, fd);
-	exit(1);
+	exit(fd - 1);
 }
 
 void	free_img(void *mlx, t_img *img)
