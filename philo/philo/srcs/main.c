@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/26 15:39:19 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:24:44 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ int	set_routine(t_philo *philo)
 	set_recur(0, philo->philo_rout, philo->infos[0], (bool *)(&i));
 	return (i);
 }
-
-
 
 int	create_philos(t_philo *philo)
 {
