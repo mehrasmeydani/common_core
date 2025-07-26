@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/26 13:40:23 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:18:14 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,12 @@ int	create_philos(t_philo *philo)
 		return (free_all(philo), 0);
 	i = -1;
 	while (++i < philo->infos[0])
-		if (philo->philo_rout[i] % 3 == 0)
-			pthread_create(&philo->philo_rout[i], NULL, philo->route_0, philo);
+		if (!pthread_mutex_init(&philo->mutex[i], NULL))
+			return (free_all(philo), 0);
 	i = -1;
 	while (++i < philo->infos[0])
-		if (philo->philo_rout[i] % 3 == 1)
-			pthread_create(&philo->philo_rout[i], NULL, philo->route_1, philo);
-	i = -1;
-	while (++i < philo->infos[0])
-		if (philo->philo_rout[i] % 3 == 2)
-			pthread_create(&philo->philo_rout[i], NULL, philo->route_2, philo);
+		if (!pthread_create(&philo->philo_rout[i], NULL, philo->route_0, philo))
+			return (free_all(philo), 0);
 }
 
 int	main(int argc, char **argv)
