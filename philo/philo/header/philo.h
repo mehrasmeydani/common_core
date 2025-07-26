@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/26 15:37:59 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:36:49 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 typedef struct s_philo
 {
 	t_thinker		*brains;
+	pthread_mutex_t	*mutex;
 	ssize_t			infos[5];
 	bool			alive;
 	ssize_t			*philo_rout;
-	pthread_mutex_t	*mutex;
 	void			*(*route_0)(void *);
 	void			*(*route_1)(void *);
 	void			*(*route_2)(void *);
