@@ -6,12 +6,14 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/26 16:36:49 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:59:38 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define _XOPEN_SOURCE 500
 
 # include <pthread.h>
 # include <bits/pthreadtypes.h>
@@ -20,28 +22,58 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include "mylib.h"
+
+
+typedef pthread_t		t_thread;
+typedef	pthread_mutex_t	t_mutex;
+
+typedef struct s_times
+{
+	int	eat;
+	int	think;
+	int	sleep;
+	int	life;
+}	t_times;
+
+typedef struct s_fork
+{
+	t_mutex	*mutex;
+	t_mutex	print;
+	t_mutex	live;
+}	t_fork;
+
+typedef	struct s_thinker
+{
+	int			num;
+	int			first;
+	int			right_fork;
+	int			left_fork;
+	t_thread	philo;
+	bool		*alive;
+	t_times		*times;
+	t_fork		*forks;
+	int			last_meal;
+	int			birth_time;
+	int			meals;
+}	t_thinker;
 
 typedef struct s_philo
 {
-	t_thinker		*brains;
-	pthread_mutex_t	*mutex;
-	ssize_t			infos[5];
-	bool			alive;
-	ssize_t			*philo_rout;
-	void			*(*route_0)(void *);
-	void			*(*route_1)(void *);
-	void			*(*route_2)(void *);
+	int			number_of_mutex;
+	int			number_of_philos;
+	int			infos[5];
+	t_thinker	*brains;
+	t_thinker	omnipotent;
+	t_fork		forks;
+	t_times		times;
+	bool		alive;
+	int			*philo_rout;
+	void		*(*route[3])(void *);
 }	t_philo;
 
-typedef	struct s_phil
-{
-	ssize_t		eat;
-	ssize_t		think;
-	ssize_t		sleep;
-	ssize_t		life;
-	pthread_t	philo;
-	ssize_t		num;
-}	t_thinker;
-
+void	*my_think(void *in);
+void	*my_eat(void *in);
+void	*my_sleep(void *in);
 
 #endif

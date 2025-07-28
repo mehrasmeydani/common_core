@@ -6,11 +6,11 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/07/08 20:53:21 by megardes         ###   ########.fr        #
+#    Updated: 2025/07/28 18:49:19 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC			= main.c
+SRC			= main.c not_bzero.c not_calloc.c
 SRCS		= ${addprefix ${PRE}, ${SRC}}
 PRE			= ./srcs/
 HEAD		= ./header/
@@ -27,7 +27,7 @@ all:		${NAME}
 			@${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME}
+			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME} -g
 
 clean: 
 			${RM} ${OBJS}
