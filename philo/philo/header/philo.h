@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/28 18:59:38 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/31 23:03:08 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef	struct s_thinker
 {
 	int			num;
 	int			first;
-	int			right_fork;
-	int			left_fork;
+	t_mutex		right_fork;
+	t_mutex		left_fork;
 	t_thread	philo;
 	bool		*alive;
 	t_times		*times;
@@ -67,6 +67,8 @@ typedef struct s_philo
 	t_thinker	omnipotent;
 	t_fork		forks;
 	t_times		times;
+	bool		live;
+	bool		print;
 	bool		alive;
 	int			*philo_rout;
 	void		*(*route[3])(void *);

@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/28 19:24:34 by megardes         ###   ########.fr       */
+/*   Updated: 2025/07/31 23:06:14 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	free_all(t_philo *philo)
 	i = -1;
 	if (philo->philo_rout)
 		free(philo->philo_rout);
-	if (philo->forks.mutex)
-	{
-		while (++i < philo->number_of_mutex)
-			pthread_mutex_destroy(&philo->forks.mutex[i]);
-		free(philo->forks.mutex);
-	}
+	// if (philo->forks.mutex)
+	// {
+	// 	while (++i < philo->infos[0])
+	// 		pthread_mutex_destroy(&philo->forks.mutex[i]);
+	// 	free(philo->forks.mutex);
+	// }
 	i = -1;
 	if (philo->brains)
 	{
-		while (++i < philo->number_of_philos + 1)
+		while (++i < philo->infos[0])
 			pthread_join(philo->brains[i].philo, NULL);
 		free(philo->brains);
 	}
@@ -99,11 +99,16 @@ void	*my_eat(void *in)
 
 	philo = (t_thinker *)in;
 	philo->meals++;
+	pthread_mutex_lock(&philo->left_fork);
+	pthread_mutex_lock(&philo->right_fork);
 	pthread_mutex_lock(&philo->forks->print);
-	ft_putnbr(philo->num + 1, 1);
-	ft_put_endl(":in eat", 1);
+	ft_put_endl(":left fork", 1);
+	ft_put_endl(":right fork", 1);
+	ft_put_endl(":eating", 1);
 	pthread_mutex_unlock(&philo->forks->print);
-	usleep(200);
+	usleep(500);
+	pthread_mutex_unlock(&philo->left_fork);
+	pthread_mutex_unlock(&philo->right_fork);
 	if (philo->meals == 5)
 		return (NULL);
 	my_think(in);
@@ -115,11 +120,15 @@ void	*my_sleep(void *in)
 	t_thinker	*philo;
 
 	philo = (t_thinker *)in;
+	if (!philo->first)
+	{
+		philo->first = 1;
+		usleep(1);
+	}
 	pthread_mutex_lock(&philo->forks->print);
-	ft_putnbr(philo->num + 1, 1);
 	ft_put_endl(":in sleep", 1);
 	pthread_mutex_unlock(&philo->forks->print);
-	usleep(200);
+	usleep(500);
 	my_eat(in);
 	return (NULL);
 }
@@ -129,11 +138,15 @@ void	*my_think(void *in)
 	t_thinker	*philo;
 
 	philo = (t_thinker *)in;
+	if (!philo->first)
+	{
+		philo->first = 1;
+		usleep(1);
+	}
 	pthread_mutex_lock(&philo->forks->print);
-	ft_putnbr(philo->num + 1, 1);
 	ft_put_endl(":in think", 1);
 	pthread_mutex_unlock(&philo->forks->print);
-	usleep(200);
+	usleep(500);
 	my_sleep(in);
 	return (NULL);
 }
@@ -190,7 +203,10 @@ int	create_mutex(t_philo *philo)
 	if (!philo->brains || !philo->forks.mutex)
 		return (free_all(philo), 0);
 	i = -1;
-	pthread_mutex_init(&philo->forks.print, NULL);
+	philo->print = pthread_mutex_init(&philo->forks.print, NULL);
+	philo->live = pthread_mutex_init(&philo->forks.live, NULL);
+	if (philo->print || philo->live)
+		return (free_all(philo), 0);
 	while (++i < philo->infos[0])
 	{
 		philo->number_of_mutex = i;
@@ -200,11 +216,11 @@ int	create_mutex(t_philo *philo)
 		philo->brains[i].forks = &philo->forks;
 		philo->brains[i].num = i;
 		philo->brains[i].times = &philo->times;
-		philo->brains[i].right_fork = i;
+		philo->brains[i].right_fork = philo->forks.mutex[i];
 		if (i == 0)
-			philo->brains[i].left_fork = philo->infos[0] - 1;
+			philo->brains[i].left_fork = philo->forks.mutex[philo->infos[0] - 1];
 		else
-			philo->brains[i].left_fork = i - 1;
+			philo->brains[i].left_fork = philo->forks.mutex[i - 1];
 	}
 	return (1);
 }
@@ -217,9 +233,9 @@ int	create_thread(t_philo *philo)
 	while (++i < philo->infos[0])
 	{
 		philo->number_of_philos = i;
-			if (pthread_create(&philo->brains[i].philo, NULL
-				, philo->route[philo->philo_rout[i]], &philo->brains[i]))
-				return (free_all(philo), 0);
+		if (pthread_create(&philo->brains[i].philo, NULL
+			, philo->route[philo->philo_rout[i]], &philo->brains[i]))
+			return (free_all(philo), 0);
 	}
 	return (1);
 }
@@ -237,6 +253,9 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!create_thread(&philo))
 		return (1);
+	sleep(5);
 	free_all(&philo);
+	pthread_mutex_destroy(&philo.forks.live);
+	pthread_mutex_destroy(&philo.forks.print);
 	return (0);
 }
