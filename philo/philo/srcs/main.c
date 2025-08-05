@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/31 23:06:14 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/05 23:44:52 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@ void	free_all(t_philo *philo)
 	i = -1;
 	if (philo->philo_rout)
 		free(philo->philo_rout);
-	// if (philo->forks.mutex)
-	// {
-	// 	while (++i < philo->infos[0])
-	// 		pthread_mutex_destroy(&philo->forks.mutex[i]);
-	// 	free(philo->forks.mutex);
-	// }
-	i = -1;
-	if (philo->brains)
+	if (philo->forks.mutex)
 	{
 		while (++i < philo->infos[0])
-			pthread_join(philo->brains[i].philo, NULL);
-		free(philo->brains);
+			pthread_mutex_destroy(&philo->forks.mutex[i]);
+		free(philo->forks.mutex);
+		if (philo->alive_mutex)
+			pthread_mutex_destroy(&philo->forks.live);
+		if (philo->print_mutex)
+			pthread_mutex_destroy(&philo->forks.print);
 	}
 }
 
@@ -84,13 +81,90 @@ int	check_in(int argc, char **argv, t_philo *philo)
 		return (ft_put_endl("Not enough arguments", 2), 0);
 	while (--argc > 0)
 	{
-		if ((argv[argc][0] != '+' || argv[argc]++) && !ft_isdigit(argv[argc]))
+		if (((argv[argc][0] != '+' || argv[argc]++) && !ft_isdigit(argv[argc]))
+			|| argv[argc][0] == '0')
 			return (ft_put_str("Argument ", 2), ft_putnbr(argc, 2),
 				ft_put_endl(": is not a valid number", 2), 0);
 		else
 			philo->infos[argc - 1] = not_atoi(argv[argc]);
 	}
+	philo->times.life = philo->infos[1];
+	philo->times.eat = philo->infos[2];
+	philo->times.sleep = philo->infos[3];
+	philo->times.think = philo->infos[1] - philo->infos[2] - philo->infos[3];
+	//philo->times.think -= 5;
 	return (1);
+}
+
+int	my_time(t_thinker *philo)
+{
+	if (gettimeofday(&philo->time, NULL))
+		return (1);
+	philo->current_time = (unsigned int)philo->time.tv_usec / 1000+ (philo->time.tv_sec % 10000 * 1000);
+	return (0);
+}
+
+int	my_time2(unsigned int *in)
+{
+	t_tm	time;
+
+	if (gettimeofday(&time, NULL))
+		return (1);
+	*in = (unsigned int)time.tv_usec / 1000 + (time.tv_sec % 10000 * 1000);
+	return (0);
+}
+
+unsigned int	my_time3(void)
+{
+	t_tm	time;
+
+	if (gettimeofday(&time, NULL))
+		return (-1);
+	return ((unsigned int)time.tv_usec / 1000 + (time.tv_sec % 10000 * 1000));
+}
+
+void	god_print(t_philo *philo, unsigned int time, int num, char *action)
+{
+	pthread_mutex_lock(&philo->forks.print);
+	printf("%d %d %s\n", time, num, action);
+	pthread_mutex_unlock(&philo->forks.print);
+}
+
+int	thinker_print(t_thinker *philo, unsigned int time, int num, char *action)
+{
+	my_time(philo);
+	pthread_mutex_lock(&philo->forks.print);
+	pthread_mutex_lock(&philo->forks.live);
+	if (*philo->alive)
+		return (pthread_mutex_unlock(&philo->forks.live)
+			, pthread_mutex_unlock(&philo->forks.print), 1);
+	pthread_mutex_unlock(&philo->forks.live);
+	printf("%u %d %s\n", (philo->current_time - time), num, action);
+	pthread_mutex_unlock(&philo->forks.print);
+	return (0);
+}
+
+int	my_usleep(t_thinker *philo, unsigned int time, unsigned int life, unsigned int last_meal)
+{
+	unsigned int	current_time;
+	unsigned int	pass_time;
+
+	current_time = my_time3();
+	pass_time = my_time3();
+	while (current_time - pass_time < time - 1)
+	{
+		current_time = my_time3();
+		if (current_time - last_meal > life)
+		{
+			pthread_mutex_lock(&philo->forks.live);
+			*philo->alive = philo->num;
+			pthread_mutex_unlock(&philo->forks.live);
+			return (1);
+		}
+		usleep(1000);
+	}
+	//printf("%u ################\n", my_time3() - pass_time);
+	return (0);
 }
 
 void	*my_eat(void *in)
@@ -98,20 +172,29 @@ void	*my_eat(void *in)
 	t_thinker	*philo;
 
 	philo = (t_thinker *)in;
-	philo->meals++;
 	pthread_mutex_lock(&philo->left_fork);
+	if (thinker_print(philo, philo->first, philo->num, "taken a fork"))
+		return (pthread_mutex_unlock(&philo->left_fork), NULL);
 	pthread_mutex_lock(&philo->right_fork);
-	pthread_mutex_lock(&philo->forks->print);
-	ft_put_endl(":left fork", 1);
-	ft_put_endl(":right fork", 1);
-	ft_put_endl(":eating", 1);
-	pthread_mutex_unlock(&philo->forks->print);
-	usleep(500);
-	pthread_mutex_unlock(&philo->left_fork);
-	pthread_mutex_unlock(&philo->right_fork);
-	if (philo->meals == 5)
+	if (thinker_print(philo, philo->first, philo->num, "taken a fork"))
+		return (pthread_mutex_unlock(&philo->right_fork)
+			, pthread_mutex_unlock(&philo->left_fork), NULL);
+	if (thinker_print(philo, philo->first, philo->num, "is eating"))
+		return (pthread_mutex_unlock(&philo->right_fork)
+			, pthread_mutex_unlock(&philo->left_fork), NULL);
+	philo->last_meal = my_time3();
+	if (my_usleep(philo, philo->times.eat, philo->times.life, philo->last_meal))
+	{
+		pthread_mutex_unlock(&philo->right_fork);
+		pthread_mutex_unlock(&philo->left_fork);
 		return (NULL);
-	my_think(in);
+	}
+	pthread_mutex_unlock(&philo->right_fork);
+	pthread_mutex_unlock(&philo->left_fork);
+	philo->meals++;
+	if (philo->meals == philo->must_eat)
+		return (NULL);
+	my_sleep(in);
 	return (NULL);
 }
 
@@ -120,16 +203,11 @@ void	*my_sleep(void *in)
 	t_thinker	*philo;
 
 	philo = (t_thinker *)in;
-	if (!philo->first)
-	{
-		philo->first = 1;
-		usleep(1);
-	}
-	pthread_mutex_lock(&philo->forks->print);
-	ft_put_endl(":in sleep", 1);
-	pthread_mutex_unlock(&philo->forks->print);
-	usleep(500);
-	my_eat(in);
+	if (thinker_print(philo, philo->first, philo->num, "is sleeping"))
+		return (NULL);
+	if (my_usleep(philo, philo->times.sleep, philo->times.life, philo->last_meal))
+		return (NULL);
+	my_think(in);
 	return (NULL);
 }
 
@@ -138,16 +216,11 @@ void	*my_think(void *in)
 	t_thinker	*philo;
 
 	philo = (t_thinker *)in;
-	if (!philo->first)
-	{
-		philo->first = 1;
-		usleep(1);
-	}
-	pthread_mutex_lock(&philo->forks->print);
-	ft_put_endl(":in think", 1);
-	pthread_mutex_unlock(&philo->forks->print);
-	usleep(500);
-	my_sleep(in);
+	if (thinker_print(philo, philo->first, philo->num, "is thinking"))
+		return (NULL);
+	if (my_usleep(philo, 1 , philo->times.life, philo->last_meal))
+		return (NULL);
+	my_eat(in);
 	return (NULL);
 }
 
@@ -203,19 +276,19 @@ int	create_mutex(t_philo *philo)
 	if (!philo->brains || !philo->forks.mutex)
 		return (free_all(philo), 0);
 	i = -1;
-	philo->print = pthread_mutex_init(&philo->forks.print, NULL);
-	philo->live = pthread_mutex_init(&philo->forks.live, NULL);
-	if (philo->print || philo->live)
+	philo->print_mutex = pthread_mutex_init(&philo->forks.print, NULL);
+	philo->alive_mutex = pthread_mutex_init(&philo->forks.live, NULL);
+	if (philo->print_mutex || philo->alive_mutex)
 		return (free_all(philo), 0);
 	while (++i < philo->infos[0])
 	{
 		philo->number_of_mutex = i;
 		if (pthread_mutex_init(&philo->forks.mutex[i], NULL))
 			return (free_all(philo), 0);
-		philo->brains[i].alive = &philo->alive;
-		philo->brains[i].forks = &philo->forks;
+		philo->brains[i].alive = &philo->living;
+		philo->brains[i].forks = philo->forks;
 		philo->brains[i].num = i;
-		philo->brains[i].times = &philo->times;
+		philo->brains[i].times = philo->times;
 		philo->brains[i].right_fork = philo->forks.mutex[i];
 		if (i == 0)
 			philo->brains[i].left_fork = philo->forks.mutex[philo->infos[0] - 1];
@@ -225,18 +298,54 @@ int	create_mutex(t_philo *philo)
 	return (1);
 }
 
+void	*god_work(void *in)
+{
+	t_philo		*philo;
+	t_thinker	brain;
+	unsigned int		num;
+
+	philo = (t_philo *)in;
+	while (true)
+	{
+		pthread_mutex_lock(&philo->forks.live);
+		if (philo->living != 0)
+		{
+			num = philo->living;
+			brain = philo->brains[num];
+			my_time(&brain);
+			god_print(philo, (brain.current_time - brain.first)
+				, num, "died");
+			//pthread_mutex_unlock(&philo->forks.live);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->forks.live);
+	}
+}
+
 int	create_thread(t_philo *philo)
 {
 	int	i;
 
 	i = -1;
+	if (pthread_create(&philo->omnipotent, NULL, god_work, philo))
+		return (free_all(philo), 0);
 	while (++i < philo->infos[0])
 	{
 		philo->number_of_philos = i;
+		my_time(&philo->brains[i]);
+		philo->brains[i].first = philo->brains[i].current_time;
+		philo->brains[i].last_meal = philo->brains[i].first;
+		if (philo->infos[4] != -1)
+		philo->brains[i].must_eat = philo->infos[4];
 		if (pthread_create(&philo->brains[i].philo, NULL
 			, philo->route[philo->philo_rout[i]], &philo->brains[i]))
 			return (free_all(philo), 0);
 	}
+	pthread_join(philo->brains[i].philo, NULL);
+	i = -1;
+	while (++i < philo->infos[0])
+		pthread_join(philo->brains[i].philo, NULL);
+	free(philo->brains);
 	return (1);
 }
 
@@ -253,9 +362,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!create_thread(&philo))
 		return (1);
-	sleep(5);
 	free_all(&philo);
-	pthread_mutex_destroy(&philo.forks.live);
-	pthread_mutex_destroy(&philo.forks.print);
 	return (0);
 }
