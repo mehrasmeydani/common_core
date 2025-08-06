@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/05 23:44:52 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/06 02:04:25 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	free_all(t_philo *philo)
 			pthread_mutex_destroy(&philo->forks.live);
 		if (philo->print_mutex)
 			pthread_mutex_destroy(&philo->forks.print);
+		if (philo->done_mutex)
+			pthread_mutex_destroy(&philo->forks.done);
 	}
 }
 
@@ -93,6 +95,8 @@ int	check_in(int argc, char **argv, t_philo *philo)
 	philo->times.sleep = philo->infos[3];
 	philo->times.think = philo->infos[1] - philo->infos[2] - philo->infos[3];
 	//philo->times.think -= 5;
+	if (philo->infos[4] != -1)
+			philo->times.must_eat = philo->infos[4];
 	return (1);
 }
 
@@ -130,17 +134,18 @@ void	god_print(t_philo *philo, unsigned int time, int num, char *action)
 	pthread_mutex_unlock(&philo->forks.print);
 }
 
-int	thinker_print(t_thinker *philo, unsigned int time, int num, char *action)
+int	thinker_print(t_thinker *philo, unsigned int time, int num, const char *action)
 {
 	my_time(philo);
-	pthread_mutex_lock(&philo->forks.print);
-	pthread_mutex_lock(&philo->forks.live);
+	(void)action;
+	pthread_mutex_lock(&philo->forks->print);
+	pthread_mutex_lock(&philo->forks->live);
 	if (*philo->alive)
-		return (pthread_mutex_unlock(&philo->forks.live)
-			, pthread_mutex_unlock(&philo->forks.print), 1);
-	pthread_mutex_unlock(&philo->forks.live);
-	printf("%u %d %s\n", (philo->current_time - time), num, action);
-	pthread_mutex_unlock(&philo->forks.print);
+		return (pthread_mutex_unlock(&philo->forks->live)
+			, pthread_mutex_unlock(&philo->forks->print), 1);
+	pthread_mutex_unlock(&philo->forks->live);
+	printf("%u %d %s\n", philo->current_time - time, num, action);
+	pthread_mutex_unlock(&philo->forks->print);
 	return (0);
 }
 
@@ -151,19 +156,18 @@ int	my_usleep(t_thinker *philo, unsigned int time, unsigned int life, unsigned i
 
 	current_time = my_time3();
 	pass_time = my_time3();
-	while (current_time - pass_time < time - 1)
+	while (current_time - pass_time < time)
 	{
 		current_time = my_time3();
 		if (current_time - last_meal > life)
 		{
-			pthread_mutex_lock(&philo->forks.live);
+			pthread_mutex_lock(&philo->forks->live);
 			*philo->alive = philo->num;
-			pthread_mutex_unlock(&philo->forks.live);
+			pthread_mutex_unlock(&philo->forks->live);
 			return (1);
 		}
-		usleep(1000);
+		usleep(500);
 	}
-	//printf("%u ################\n", my_time3() - pass_time);
 	return (0);
 }
 
@@ -191,9 +195,11 @@ void	*my_eat(void *in)
 	}
 	pthread_mutex_unlock(&philo->right_fork);
 	pthread_mutex_unlock(&philo->left_fork);
+	pthread_mutex_lock(&philo->forks->done);
 	philo->meals++;
-	if (philo->meals == philo->must_eat)
-		return (NULL);
+	if (philo->meals == philo->times.must_eat)
+		return (pthread_mutex_unlock(&philo->forks->done), NULL);
+	pthread_mutex_unlock(&philo->forks->done);
 	my_sleep(in);
 	return (NULL);
 }
@@ -218,7 +224,7 @@ void	*my_think(void *in)
 	philo = (t_thinker *)in;
 	if (thinker_print(philo, philo->first, philo->num, "is thinking"))
 		return (NULL);
-	if (my_usleep(philo, 1 , philo->times.life, philo->last_meal))
+	if (my_usleep(philo, 0 , philo->times.life, philo->last_meal))
 		return (NULL);
 	my_eat(in);
 	return (NULL);
@@ -278,7 +284,8 @@ int	create_mutex(t_philo *philo)
 	i = -1;
 	philo->print_mutex = pthread_mutex_init(&philo->forks.print, NULL);
 	philo->alive_mutex = pthread_mutex_init(&philo->forks.live, NULL);
-	if (philo->print_mutex || philo->alive_mutex)
+	philo->done_mutex = pthread_mutex_init(&philo->forks.done, NULL);
+	if (philo->print_mutex || philo->alive_mutex || philo->done_mutex)
 		return (free_all(philo), 0);
 	while (++i < philo->infos[0])
 	{
@@ -286,7 +293,7 @@ int	create_mutex(t_philo *philo)
 		if (pthread_mutex_init(&philo->forks.mutex[i], NULL))
 			return (free_all(philo), 0);
 		philo->brains[i].alive = &philo->living;
-		philo->brains[i].forks = philo->forks;
+		philo->brains[i].forks = &philo->forks;
 		philo->brains[i].num = i;
 		philo->brains[i].times = philo->times;
 		philo->brains[i].right_fork = philo->forks.mutex[i];
@@ -300,13 +307,21 @@ int	create_mutex(t_philo *philo)
 
 void	*god_work(void *in)
 {
-	t_philo		*philo;
-	t_thinker	brain;
+	t_philo				*philo;
+	t_thinker			brain;
 	unsigned int		num;
+	int					i;	
 
 	philo = (t_philo *)in;
 	while (true)
 	{
+		i = 0;
+		pthread_mutex_lock(&philo->forks.done);
+		while (i < philo->infos[0] && philo->times.must_eat == philo->brains[i].meals)
+			i++;
+		pthread_mutex_unlock(&philo->forks.done);
+		if (i == philo->infos[0])
+			return (NULL);
 		pthread_mutex_lock(&philo->forks.live);
 		if (philo->living != 0)
 		{
@@ -315,7 +330,7 @@ void	*god_work(void *in)
 			my_time(&brain);
 			god_print(philo, (brain.current_time - brain.first)
 				, num, "died");
-			//pthread_mutex_unlock(&philo->forks.live);
+			pthread_mutex_unlock(&philo->forks.live);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->forks.live);
@@ -335,15 +350,13 @@ int	create_thread(t_philo *philo)
 		my_time(&philo->brains[i]);
 		philo->brains[i].first = philo->brains[i].current_time;
 		philo->brains[i].last_meal = philo->brains[i].first;
-		if (philo->infos[4] != -1)
-		philo->brains[i].must_eat = philo->infos[4];
 		if (pthread_create(&philo->brains[i].philo, NULL
 			, philo->route[philo->philo_rout[i]], &philo->brains[i]))
 			return (free_all(philo), 0);
 	}
-	pthread_join(philo->brains[i].philo, NULL);
+	pthread_join(philo->omnipotent, NULL);
 	i = -1;
-	while (++i < philo->infos[0])
+	while (++i < philo->number_of_philos)
 		pthread_join(philo->brains[i].philo, NULL);
 	free(philo->brains);
 	return (1);

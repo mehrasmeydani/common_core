@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/05 22:26:43 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/06 02:03:29 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_times
 	unsigned int	sleep;
 	unsigned int	life;
 	unsigned int	think;
+	unsigned int	must_eat;
 }	t_times;
 
 typedef struct s_fork
@@ -44,6 +45,7 @@ typedef struct s_fork
 	t_mutex	*mutex;
 	t_mutex	print;
 	t_mutex	live;
+	t_mutex	done;
 }	t_fork;
 
 typedef	struct s_thinker
@@ -55,10 +57,9 @@ typedef	struct s_thinker
 	t_thread		philo;
 	int				*alive;
 	t_times			times;
-	t_fork			forks;
+	t_fork			*forks;
 	unsigned int	last_meal;
-	int				meals;
-	int				must_eat;
+	unsigned int	meals;
 	unsigned int	current_time;
 	t_tm			time;
 }	t_thinker;
@@ -75,6 +76,7 @@ typedef struct s_philo
 	int			living;
 	bool		print_mutex;
 	bool		alive_mutex;
+	bool		done_mutex;
 	int			*philo_rout;
 	void		*(*route[3])(void *);
 }	t_philo;
