@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/07 17:37:49 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:44:35 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <sys/types.h>
-# include <sys/time.h>
-# include <sys/types.h>
 # include "mylib.h"
 
 
 typedef pthread_t		t_thread;
 typedef	pthread_mutex_t	t_mutex;
-typedef	struct timeval	t_tm;
 typedef	struct timeval	t_tm;
 
 typedef struct s_times
@@ -73,7 +70,6 @@ typedef struct s_philo
 	int			number_of_philos;
 	int			infos[5];
 	t_thinker	*brains;
-	t_thread	omnipotent;
 	t_thread	omnipotent;
 	t_fork		forks;
 	t_times		times;
