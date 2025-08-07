@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/07/31 23:03:08 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:48:11 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ typedef	pthread_mutex_t	t_mutex;
 
 typedef struct s_times
 {
-	int	eat;
-	int	think;
-	int	sleep;
-	int	life;
+	unsigned int	eat;
+	unsigned int	sleep;
+	unsigned int	life;
+	unsigned int	think;
+	unsigned int	must_eat;
 }	t_times;
 
 typedef struct s_fork
@@ -41,21 +42,23 @@ typedef struct s_fork
 	t_mutex	*mutex;
 	t_mutex	print;
 	t_mutex	live;
+	t_mutex	done;
 }	t_fork;
 
 typedef	struct s_thinker
 {
-	int			num;
-	int			first;
-	t_mutex		right_fork;
-	t_mutex		left_fork;
-	t_thread	philo;
-	bool		*alive;
-	t_times		*times;
-	t_fork		*forks;
-	int			last_meal;
-	int			birth_time;
-	int			meals;
+	int				num;
+	unsigned int	first;
+	t_mutex			right_fork;
+	t_mutex			left_fork;
+	t_thread		philo;
+	int				*alive;
+	t_times			times;
+	t_fork			*forks;
+	unsigned int	last_meal;
+	unsigned int	meals;
+	unsigned int	current_time;
+	t_tm			time;
 }	t_thinker;
 
 typedef struct s_philo
@@ -67,9 +70,10 @@ typedef struct s_philo
 	t_thinker	omnipotent;
 	t_fork		forks;
 	t_times		times;
-	bool		live;
-	bool		print;
-	bool		alive;
+	int			living;
+	bool		print_mutex;
+	bool		alive_mutex;
+	bool		done_mutex;
 	int			*philo_rout;
 	void		*(*route[3])(void *);
 }	t_philo;
