@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/07 17:44:35 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:09:02 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,26 @@ typedef	struct s_thinker
 	unsigned int	last_meal;
 	unsigned int	meals;
 	unsigned int	current_time;
+	unsigned int	*all_meals;
 	t_tm			time;
 }	t_thinker;
 
 typedef struct s_philo
 {
-	int			number_of_mutex;
-	int			number_of_philos;
-	int			infos[5];
-	t_thinker	*brains;
-	t_thread	omnipotent;
-	t_fork		forks;
-	t_times		times;
-	int			living;
-	bool		print_mutex;
-	bool		alive_mutex;
-	bool		done_mutex;
-	int			*philo_rout;
-	void		*(*route[3])(void *);
+	int				number_of_mutex;
+	int				number_of_philos;
+	int				infos[5];
+	t_thinker		*brains;
+	t_thread		omnipotent;
+	t_fork			forks;
+	t_times			times;
+	int				living;
+	bool			print_mutex;
+	bool			alive_mutex;
+	bool			done_mutex;
+	unsigned int	all_meals;
+	int				*philo_rout;
+	void			*(*route[3])(void *);
 }	t_philo;
 
 void	*my_think(void *in);

@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/07 17:45:47 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:13:29 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ void	*my_eat(void *in)
 	pthread_mutex_unlock(&philo->left_fork);
 	pthread_mutex_lock(&philo->forks->done);
 	philo->meals++;
+	*philo->all_meals = *philo->all_meals + 1;
 	if (philo->meals == philo->times.must_eat)
 		return (pthread_mutex_unlock(&philo->forks->done), NULL);
 	pthread_mutex_unlock(&philo->forks->done);
@@ -298,6 +299,7 @@ int	create_mutex(t_philo *philo)
 		philo->brains[i].num = i;
 		philo->brains[i].times = philo->times;
 		philo->brains[i].right_fork = philo->forks.mutex[i];
+		philo->brains[i].all_meals = &philo->all_meals;
 		if (i == 0)
 			philo->brains[i].left_fork = philo->forks.mutex[philo->infos[0] - 1];
 		else
@@ -310,19 +312,15 @@ void	*god_work(void *in)
 {
 	t_philo				*philo;
 	t_thinker			brain;
-	unsigned int		num;
-	int					i;	
+	unsigned int		num;	
 
 	philo = (t_philo *)in;
 	while (true)
 	{
-		i = 0;
 		pthread_mutex_lock(&philo->forks.done);
-		while (i < philo->infos[0] && philo->times.must_eat == philo->brains[i].meals)
-			i++;
+		if (philo->all_meals == philo->infos[0] * philo->times.must_eat)
+			return (pthread_mutex_unlock(&philo->forks.done), NULL);
 		pthread_mutex_unlock(&philo->forks.done);
-		if (i == philo->infos[0])
-			return (NULL);
 		pthread_mutex_lock(&philo->forks.live);
 		if (philo->living != 0)
 		{
