@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/10 16:03:05 by megardes         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:01:05 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@
 # include <sys/types.h>
 # include "mylib.h"
 
-
 typedef pthread_t		t_thread;
-typedef	pthread_mutex_t	t_mutex;
-typedef	struct timeval	t_tm;
+typedef pthread_mutex_t	t_mutex;
+typedef struct timeval	t_tm;
 
 typedef struct s_times
 {
@@ -46,11 +45,11 @@ typedef struct s_fork
 	t_mutex	print;
 	t_mutex	live;
 	t_mutex	done;
-	t_mutex here;
-	t_mutex start;
+	t_mutex	here;
+	t_mutex	start;
 }	t_fork;
 
-typedef	struct s_thinker
+typedef struct s_thinker
 {
 	int				num;
 	int				number_of_philos;
@@ -67,6 +66,7 @@ typedef	struct s_thinker
 	unsigned int	*all_here;
 	unsigned int	*start_god;
 	unsigned int	start;
+	unsigned int	death;
 	t_tm			time;
 }	t_thinker;
 
