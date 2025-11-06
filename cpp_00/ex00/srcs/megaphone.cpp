@@ -10,10 +10,10 @@ int	main(int argc, char **argv)
 			{
 				argv[i][j] = (char)toupper(argv[i][j]);
 			}
-			std::cout << argv[i];
+			std::cout << argv[i] << std::flush;
 		}
 		std::cout << std::endl;
 	}
 	else
-		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *\n";
+		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
 }
