@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/08/13 15:01:05 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/08 21:45:21 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ typedef struct s_thinker
 	unsigned int	*start_god;
 	unsigned int	start;
 	unsigned int	death;
+	void			*(*f)(void *);
 	t_tm			time;
+	bool			last_philo;
 }	t_thinker;
 
 typedef struct s_philo
@@ -90,8 +92,15 @@ typedef struct s_philo
 	void			*(*route[3])(void *);
 }	t_philo;
 
-void	*my_think(void *in);
-void	*my_eat(void *in);
-void	*my_sleep(void *in);
+void			*my_think(void *in);
+void			*my_eat(void *in);
+void			*my_sleep(void *in);
+void			free_all(t_philo *philo);
+int				ml(t_mutex *in);
+int				mu(t_mutex *in);
+int				check_in(int argc, char **argv, t_philo *philo);
+int				thinker_print(t_thinker *philo, unsigned int time, int num,
+					const char *action);
+unsigned int	my_time(void);
 
 #endif

@@ -6,20 +6,21 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/08/10 13:21:46 by megardes         ###   ########.fr        #
+#    Updated: 2025/11/08 21:42:42 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC			= main.c not_bzero.c not_calloc.c
-SRCS		= ${addprefix ${PRE}, ${SRC}}
-PRE			= ./srcs/
-HEAD		= ./header/
-NAME		= philo
-CFLAGS		= -Wall -Wextra -Werror
-OBJS		= ${SRCS:.c=.o}
-RM			= rm -f
-CC			= cc
-MAKEFLAGS	+= --no-print-directory
+SRC			=	main.c ft_bzero.c ft_calloc.c ft_isdigit.c ft_puts.c ft_atoi.c\
+				check_in.c free_all.c locking.c thinker_print.c my_time.c
+SRCS		=	${addprefix ${PRE}, ${SRC}}
+PRE			=	./srcs/
+HEAD		=	./header/
+NAME		=	philo
+CFLAGS		=	-Wall -Wextra -Werror
+OBJS		=	${SRCS:.c=.o}
+RM			=	rm -f
+CC			=	cc
+MAKEFLAGS	+=	--no-print-directory
 
 all:		${NAME}
 

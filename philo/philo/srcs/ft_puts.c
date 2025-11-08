@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mylib.h                                            :+:      :+:    :+:   */
+/*   ft_puts.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 15:59:39 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/08 21:37:32 by megardes         ###   ########.fr       */
+/*   Created: 2025/11/08 21:26:47 by megardes          #+#    #+#             */
+/*   Updated: 2025/11/08 21:27:08 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MYLIB_H
-# define MYLIB_H
+#include "../header/mylib.h"
 
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
+void	ft_put_str(char *str, int fd)
+{
+	while (*str)
+		write (fd, str++, 1);
+}
 
-typedef unsigned char	t_uc;
+void	ft_put_endl(char *str, int fd)
+{
+	while (*str)
+		write (fd, str++, 1);
+	write(fd, "\n", 1);
+}
 
-void	*not_calloc(size_t nmemb, size_t size);
-void	not_bzero(void *s, size_t n);
-int		not_atoi(char *num);
-void	ft_put_str(char *str, int fd);
-void	ft_put_endl(char *str, int fd);
-void	ft_putnbr(int i, int fd);
-int		ft_isdigit(char *in);
-
-#endif
+void	ft_putnbr(int i, int fd)
+{
+	if (i != 0)
+		return (ft_putnbr(i / 10, fd),
+			(void)write(fd, &"0123456789"[i % 10], 1));
+}
