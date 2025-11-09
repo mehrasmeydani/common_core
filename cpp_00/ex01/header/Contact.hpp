@@ -1,10 +1,13 @@
-#ifndef CONTACT_HPP
-# define CONTACT_HPP
+#pragma once
 
 # include <string>
 
 class Contact
 {
+	public:
+		Contact();
+		~Contact();
+
 	private:
 		std::string first_name;
 		std::string	last_name;
@@ -13,11 +16,6 @@ class Contact
 		std::string	darkest_secret;
 	
 	public:
-		Contact();
-		~Contact();
-		
 		void	set_conact(void);
 		void	get_conact(void);
 };
-
-#endif

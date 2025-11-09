@@ -27,9 +27,7 @@ void	PhoneBook::set_book(void)
 		len++;
 	}
 	else
-	{
 		this->Contacts[7].set_conact();
-	}
 	return ;
 }
 
@@ -43,7 +41,8 @@ void	PhoneBook::get_book()
 		std::cout << "THE PHONEBOOK IS EMPTY!" << std::endl;
 		return ;
 	}
-	while (x == 0) {
+	while (x == 0)
+	{
 		std::cout << "PLEASE ENTER A NUMBER BETWEEN " << 1 << " AND " << len << std::endl;
 		std::cin >> x;
 		if (std::cin.eof())
@@ -75,7 +74,7 @@ void	PhoneBook::prompt()
 	std::string input;
 	std::cout << "PLEASE ENTER ONE OF THE FOLLOWING OPERATIONS!" << std::endl << "1.\t[ADD]: save a new contact\n2.\t[SEARCH]: display a specific contact\n3.\t[EXIT]: exit code\nEntered option:" << std::flush;
 	std::getline(std::cin, input);
-	if (input.compare("ADD") == 0)
+	if (input == "ADD")
 		set_book();
 	else if (input.compare("SEARCH") == 0)
 		get_book();

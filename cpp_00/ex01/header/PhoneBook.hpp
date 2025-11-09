@@ -1,5 +1,4 @@
-#ifndef PHONEBOOK_HPP
-# define PHONEBOOK_HPP
+#pragma once
 
 # include "Contact.hpp"
 
@@ -18,5 +17,3 @@ class PhoneBook
 		void	prompt(void);
 
 };
-
-#endif
