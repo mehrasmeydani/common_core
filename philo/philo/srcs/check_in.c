@@ -6,13 +6,13 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 21:31:31 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/09 04:22:43 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:35:15 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-static void set_invalid(t_philo *philo)
+static void	set_invalid(t_philo *philo)
 {
 	const t_ui	sleep = philo->times.sleep;
 	const t_ui	eat = philo->times.eat;
@@ -34,7 +34,7 @@ static void	set_think(t_philo *philo)
 			philo->times.think = (philo->times.eat * 2 - philo->times.sleep)
 				* (philo->times.eat * 2 > philo->times.sleep) / 2;
 		}
-		else 
+		else
 			philo->times.think = (philo->times.eat - philo->times.sleep)
 				* 3 / 2;
 	}

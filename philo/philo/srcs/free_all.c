@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 21:27:53 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/08 21:28:26 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:41:17 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,11 @@ void	free_all(t_philo *philo)
 		if (philo->done_mutex)
 			pthread_mutex_destroy(&philo->forks.done);
 	}
+}
+
+void	free_threads(t_philo *philo, int i)
+{
+	ml(&philo->forks.live);
+	philo->living = i;
+	mu(&philo->forks.live);
 }

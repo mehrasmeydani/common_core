@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:24:44 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/09 02:48:56 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:36:05 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,69 +56,69 @@ int	create_mutex(t_philo *philo)
 	return (1);
 }
 
-void	*god_work(void *in)
-{
-	t_philo				*philo;
-	size_t				i;
+// void	*god_work(void *in)
+// {
+// 	t_philo				*philo;
+// 	size_t				i;
 
-	philo = (t_philo *)in;
-	god_start(philo);
-	i = 0;
-	while (true)
-	{
-		if (i % 40 == 0)
-		{
-			if (philo->infos[4] != -1)
-			{
-				ml(&philo->forks.done);
-				if (philo->all_meals == (t_ui)philo->infos[0])
-					return (mu(&philo->forks.done), NULL);
-				mu(&philo->forks.done);
-			}
-			ml(&philo->forks.live);
-			if (philo->living != -1)
-			{
-				ml(&philo->forks.print);
-				printf("%u %d %s\n", (my_time() - philo->start) / 10,
-					philo->living, "died");
-				return (mu(&philo->forks.print), mu(&philo->forks.live), NULL);
-			}
-			mu(&philo->forks.live);
-		}
-		i++;
-		usleep(25);
-	}
-}
+// 	philo = (t_philo *)in;
+// 	god_start(philo);
+// 	i = 0;
+// 	while (true)
+// 	{
+// 		if (i % 40 == 0)
+// 		{
+// 			if (philo->infos[4] != -1)
+// 			{
+// 				ml(&philo->forks.done);
+// 				if (philo->all_meals == (t_ui)philo->infos[0])
+// 					return (mu(&philo->forks.done), NULL);
+// 				mu(&philo->forks.done);
+// 			}
+// 			ml(&philo->forks.live);
+// 			if (philo->living != -1)
+// 			{
+// 				ml(&philo->forks.print);
+// 				printf("%u %d %s\n", (my_time() - philo->start) / 10,
+// 					philo->living, "died");
+// 				return (mu(&philo->forks.print), mu(&philo->forks.live), NULL);
+// 			}
+// 			mu(&philo->forks.live);
+// 		}
+// 		i++;
+// 		usleep(25);
+// 	}
+// }
 
-int	create_thread(t_philo *philo)
-{
-	int	i;
+// int	create_thread(t_philo *philo)
+// {
+// 	int	i;
 
-	i = -1;
-	if (pthread_create(&philo->omnipotent, NULL, god_work, philo))
-		return (free_all(philo), 0);
-	while (++i < philo->infos[0])
-	{
-		philo->number_of_philos = i;
-		philo->brains[i].first = my_time();
-		philo->brains[i].last_meal = philo->brains[i].first;
-		if (philo->infos[0] == 1)
-			philo->brains[i].f = &spaghetti_needs_two;
-		else
-			philo->brains[i].f = philo->route[philo->philo_rout[i]];
-		if (i == philo->infos[0] - 1)
-			philo->brains[i].last_philo = 1;
-		if (pthread_create(&philo->brains[i].philo, NULL,
-				start, &philo->brains[i]))
-			return (free_all(philo), 0);
-	}
-	pthread_join(philo->omnipotent, NULL);
-	i = -1;
-	while (++i < philo->number_of_philos + 1)
-		pthread_join(philo->brains[i].philo, NULL);
-	free(philo->brains);
-	return (1);
-}
+// 	i = -1;
+// 	if (pthread_create(&philo->omnipotent, NULL, god_work, philo))
+// 		return (free_all(philo), 0);
+// 	while (++i < philo->infos[0])
+// 	{
+// 		philo->number_of_philos = i;
+// 		philo->brains[i].first = my_time();
+// 		philo->brains[i].last_meal = philo->brains[i].first;
+// 		if (philo->infos[0] == 1)
+// 			philo->brains[i].f = &spaghetti_needs_two;
+// 		else
+// 			philo->brains[i].f = philo->route[philo->philo_rout[i]];
+// 		if (i == philo->infos[0] - 1)
+// 			philo->brains[i].last_philo = 1;
+// 		if (pthread_create(&philo->brains[i].philo, NULL,
+// 				start, &philo->brains[i]))
+// 			return (free_all(philo), 0);
+// 	}
+// 	pthread_join(philo->omnipotent, NULL);
+// 	i = -1;
+// 	while (++i < philo->number_of_philos + 1)
+// 		pthread_join(philo->brains[i].philo, NULL);
+// 	free(philo->brains);
+// 	return (1);
+// }
 
 int	main(int argc, char **argv)
 {

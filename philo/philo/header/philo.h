@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/09 02:12:51 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:41:29 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,9 @@ int		take_fork(t_thinker *philo);
 void	put_fork(t_thinker *philo);
 void	*spaghetti_needs_two(t_thinker *in);
 int		set_routine(t_philo *philo);
+void	*god_work(void *in);
+int		create_thread(t_philo *philo);
+int		god_mealcheck(t_philo *philo);
+void	free_threads(t_philo *philo, int i);
 
 #endif

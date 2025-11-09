@@ -6,13 +6,13 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/11/09 01:47:24 by megardes         ###   ########.fr        #
+#    Updated: 2025/11/09 15:39:44 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC			=	main.c ft_bzero.c ft_calloc.c ft_isdigit.c ft_puts.c ft_atoi.c\
 				check_in.c free_all.c locking.c thinker_print.c my_time.c\
-				my_usleep.c starts.c routines.c forks.c check_meals.c
+				my_usleep.c starts.c routines.c forks.c check_meals.c threads.c monitoring.c
 SRCS		=	${addprefix ${PRE_SRC}, ${SRC}}
 PRE_SRC		=	srcs/
 HEAD		=	header/
