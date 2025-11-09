@@ -6,22 +6,29 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 21:31:31 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/08 21:44:52 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 03:55:34 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	set_think(t_philo *philo)
+static void	set_think(t_philo *philo)
 {
 	if (philo->infos[0] % 2)
 	{
 		if (philo->times.eat <= philo->times.sleep)
+		{
 			philo->times.think = (philo->times.eat * 2 - philo->times.sleep)
 				* (philo->times.eat * 2 > philo->times.sleep) / 2;
-		else
-			philo->times.think = (philo->times.eat - philo->times.sleep)
-				*(philo->times.eat > philo->times.sleep) * 3 / 2;
+		}
+		else 
+		{
+			philo->times.think = (philo->times.eat - philo->times.sleep);
+			if (philo->times.life - philo->times.eat <= philo->times.sleep + philo->times.eat)
+				philo->times.think = philo->times.life;
+			else
+				philo->times.think = philo->times.think * 3 / 2;
+		}
 	}
 	else
 	{

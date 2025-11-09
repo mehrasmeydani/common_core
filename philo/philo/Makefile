@@ -6,35 +6,39 @@
 #    By: megardes <megardes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 14:44:18 by codespace         #+#    #+#              #
-#    Updated: 2025/11/08 21:42:42 by megardes         ###   ########.fr        #
+#    Updated: 2025/11/09 01:47:24 by megardes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC			=	main.c ft_bzero.c ft_calloc.c ft_isdigit.c ft_puts.c ft_atoi.c\
-				check_in.c free_all.c locking.c thinker_print.c my_time.c
-SRCS		=	${addprefix ${PRE}, ${SRC}}
-PRE			=	./srcs/
-HEAD		=	./header/
+				check_in.c free_all.c locking.c thinker_print.c my_time.c\
+				my_usleep.c starts.c routines.c forks.c check_meals.c
+SRCS		=	${addprefix ${PRE_SRC}, ${SRC}}
+PRE_SRC		=	srcs/
+HEAD		=	header/
 NAME		=	philo
 CFLAGS		=	-Wall -Wextra -Werror
-OBJS		=	${SRCS:.c=.o}
-RM			=	rm -f
-CC			=	cc
-MAKEFLAGS	+=	--no-print-directory
+OBJ			=	${SRC:.c=.o}
+PRE_OBJ		=	obj/
+OBJS		=	${addprefix ${PRE_OBJ}, ${OBJ}}
+RM			=	rm -fr
+CC			= 	cc
+MAKEFLAGS	+= --no-print-directory
 
 all:		${NAME}
 
-.c.o:
-			@${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
+$(PRE_OBJ)%.o:$(PRE_SRC)%.c
+			mkdir -p $(PRE_OBJ)
+			${CC} ${CFLAGS} -I ${HEAD} -o $@ -c $< 
 
 ${NAME}:	${OBJS}
-			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME} -g
+			cc ${CFLAGS} -I ${HEAD} ${SRCS} -o ${NAME}
 
 clean: 
 			${RM} ${OBJS}
 
 fclean: 	clean
-			${RM} ${NAME}
+			${RM} ${NAME} $(PRE_OBJ)
 
 re:			fclean all
 			

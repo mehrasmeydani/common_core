@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_time.c                                          :+:      :+:    :+:   */
+/*   check_meals.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 21:41:28 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/08 21:55:08 by megardes         ###   ########.fr       */
+/*   Created: 2025/11/08 21:58:42 by megardes          #+#    #+#             */
+/*   Updated: 2025/11/09 00:54:28 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-t_ui	my_time(void)
+int	check_meals(t_thinker *philo)
 {
-	t_tm	time;
-
-	if (gettimeofday(&time, NULL))
-		return (-1);
-	return ((t_ui)time.tv_usec / 100 + (time.tv_sec % 100000 * 10000));
+	ml(&philo->forks->done);
+	if (philo->meals < philo->times.must_eat)
+	{
+		philo->meals++;
+		if (philo->meals == philo->times.must_eat)
+			*(philo->all_meals) = *(philo->all_meals) + 1;
+	}
+	if (*philo->all_meals == philo->number_of_philos)
+		return (mu(&philo->forks->done), 1);
+	mu(&philo->forks->done);
+	return (0);
 }

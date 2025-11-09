@@ -6,7 +6,7 @@
 /*   By: megardes <megardes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:22:46 by megardes          #+#    #+#             */
-/*   Updated: 2025/11/08 21:45:21 by megardes         ###   ########.fr       */
+/*   Updated: 2025/11/09 02:12:51 by megardes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@
 typedef pthread_t		t_thread;
 typedef pthread_mutex_t	t_mutex;
 typedef struct timeval	t_tm;
+typedef unsigned int	t_ui;
 
 typedef struct s_times
 {
-	unsigned int	eat;
-	unsigned int	sleep;
-	unsigned int	life;
-	unsigned int	think;
-	unsigned int	must_eat;
+	t_ui	eat;
+	t_ui	sleep;
+	t_ui	life;
+	t_ui	think;
+	t_ui	must_eat;
 }	t_times;
 
 typedef struct s_fork
@@ -51,56 +52,65 @@ typedef struct s_fork
 
 typedef struct s_thinker
 {
-	int				num;
-	int				number_of_philos;
-	unsigned int	first;
-	t_mutex			*right_fork;
-	t_mutex			*left_fork;
-	t_thread		philo;
-	int				*alive;
-	t_times			times;
-	t_fork			*forks;
-	unsigned int	last_meal;
-	unsigned int	meals;
-	unsigned int	*all_meals;
-	unsigned int	*all_here;
-	unsigned int	*start_god;
-	unsigned int	start;
-	unsigned int	death;
-	void			*(*f)(void *);
-	t_tm			time;
-	bool			last_philo;
+	int			num;
+	t_ui		number_of_philos;
+	t_ui		first;
+	t_mutex		*right_fork;
+	t_mutex		*left_fork;
+	t_thread	philo;
+	int			*alive;
+	t_times		times;
+	t_fork		*forks;
+	t_ui		last_meal;
+	t_ui		meals;
+	t_ui		*all_meals;
+	t_ui		*all_here;
+	t_ui		*start_god;
+	t_ui		start;
+	t_ui		death;
+	void		*(*f)(struct s_thinker *);
+	t_tm		time;
+	bool		last_philo;
 }	t_thinker;
 
 typedef struct s_philo
 {
-	int				number_of_mutex;
-	int				number_of_philos;
-	int				infos[5];
-	t_thinker		*brains;
-	t_thread		omnipotent;
-	t_fork			forks;
-	t_times			times;
-	int				living;
-	bool			print_mutex;
-	bool			alive_mutex;
-	bool			done_mutex;
-	unsigned int	all_meals;
-	unsigned int	all_here;
-	unsigned int	start;
-	int				*philo_rout;
-	void			*(*route[3])(void *);
+	int			number_of_mutex;
+	int			number_of_philos;
+	int			infos[5];
+	t_thinker	*brains;
+	t_thread	omnipotent;
+	t_fork		forks;
+	t_times		times;
+	int			living;
+	bool		print_mutex;
+	bool		alive_mutex;
+	bool		done_mutex;
+	t_ui		all_meals;
+	t_ui		all_here;
+	t_ui		start;
+	int			*philo_rout;
+	void		*(*route[3])(t_thinker *);
 }	t_philo;
 
-void			*my_think(void *in);
-void			*my_eat(void *in);
-void			*my_sleep(void *in);
-void			free_all(t_philo *philo);
-int				ml(t_mutex *in);
-int				mu(t_mutex *in);
-int				check_in(int argc, char **argv, t_philo *philo);
-int				thinker_print(t_thinker *philo, unsigned int time, int num,
-					const char *action);
-unsigned int	my_time(void);
+void	*my_think(t_thinker *in);
+void	*my_eat(t_thinker *in);
+void	*my_sleep(t_thinker *in);
+void	free_all(t_philo *philo);
+int		ml(t_mutex *in);
+int		mu(t_mutex *in);
+int		check_in(int argc, char **argv, t_philo *philo);
+int		thinker_print(t_thinker *philo, t_ui time, int num,
+			const char *action);
+t_ui	my_time(void);
+int		my_usleep(t_thinker *philo, t_ui time,
+			t_ui life, t_ui last_meal);
+void	god_start(t_philo *philo);
+void	*start(void *in);
+int		check_meals(t_thinker *philo);
+int		take_fork(t_thinker *philo);
+void	put_fork(t_thinker *philo);
+void	*spaghetti_needs_two(t_thinker *in);
+int		set_routine(t_philo *philo);
 
 #endif
