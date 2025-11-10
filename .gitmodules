@@ -1,0 +1,3 @@
+[submodule "philo"]
+	path = philo
+	url = git@github.com:mehrasmeydani/philo.git
