@@ -1,6 +1,6 @@
 [submodule "philo"]
 	path = philo
-	url = git@github.com:mehrasmeydani/philo.git
+	url = git@github.com:mehrasmeydani/philo
 [submodule "cpp"]
 	path = cpp
 	url = git@github.com:mehrasmeydani/42_CPP_modules.git
