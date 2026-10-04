@@ -1,9 +1,9 @@
 [submodule "philo"]
 	path = philo
-	url = git@github.com:mehrasmeydani/philo
+	url = https://github.com/mehrasmeydani/philo.git
 [submodule "cpp"]
 	path = cpp
-	url = git@github.com:mehrasmeydani/42_CPP_modules.git
+	url = https://github.com/mehrasmeydani/42_CPP_modules.git
 [submodule "minishell"]
 	path = minishell
-	url = git@github.com:mehrasmeydani/minishell.git
+	url = https://github.com/mehrasmeydani/minishell.git
